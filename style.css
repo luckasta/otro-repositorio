@@ -1,0 +1,21 @@
+:root {
+    --color-primario: #b3beff;
+    --color-secundario: #9a99f2;
+    --color-texto: #333333;
+    --color-fondo: #ccdcff;
+    --fuente-principal: "Bebas Neue", sans-serif;
+    --radio-borde: 8px;
+
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--fuente-principal);
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+}
