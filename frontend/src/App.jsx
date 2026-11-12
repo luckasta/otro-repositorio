@@ -2,16 +2,37 @@
 import './App.css'
 
 function App() {
-  const enviarWhatsApp = (event) => {
-    event.preventDefault();
+  
+const enviarWhatsApp = async (event) => {
+  event.preventDefault();
 
-    const formulario = event.currentTarget;
-    const datos = new FormData(formulario);
+  const formulario = event.currentTarget;
+  const datos = new FormData(formulario);
 
-    const nombre = datos.get('nombre');
-    const correo = datos.get('correo');
-    const producto = datos.get('producto');
-    const mensaje = datos.get('mensaje');
+  const nombre = datos.get('nombre');
+  const correo = datos.get('correo');
+  const producto = datos.get('producto');
+  const mensaje = datos.get('mensaje');
+
+  const pedido = {
+    nombre,
+    correo,
+    producto,
+    mensaje
+  };
+
+  try {
+    const respuesta = await fetch('http://localhost:3000/api/pedidos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(pedido)
+    });
+
+    if (!respuesta.ok) {
+      throw new Error('No se pudo guardar el pedido');
+    }
 
     const texto = `¡Hola! Quiero realizar un pedido en Dulce Tentación.
 
@@ -22,8 +43,16 @@ Detalles: ${mensaje}`;
 
     const url = `https://wa.me/573332536448?text=${encodeURIComponent(texto)}`;
 
-    window.open(url, '_blank');
-  };
+    window.location.href = url;
+
+    formulario.reset();
+
+  } catch (error) {
+    console.error('Error:', error);
+    alert('No se pudo guardar tu pedido. Inténtalo nuevamente.');
+  }
+};
+
 
   return (
     <>
