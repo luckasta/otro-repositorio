@@ -293,3 +293,196 @@
     gap: 30px;
   }
 }
+
+
+/* ==============================
+   PANEL ADMINISTRATIVO
+============================== */
+
+.admin-panel {
+    min-height: 100vh;
+    background-color: #F8F3EA;
+    color: #493326;
+}
+
+
+
+.admin-header {
+    background-color: #39204F;
+    color: #F8F3EA;
+    padding: 25px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.admin-header p {
+    margin: 5px 0 0;
+    color: #E9BD55;
+}
+
+.admin-header button {
+    background-color: #E9BD55;
+    color: #39204F;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+.admin-contenido {
+    width: 86%;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.admin-bienvenida {
+    margin-bottom: 30px;
+}
+
+.admin-bienvenida h2 {
+    color: #39204F;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+
+.admin-resumen-tarjeta {
+    background-color: white;
+    border-left: 5px solid #E9BD55;
+    border-radius: 12px;
+    padding: 22px;
+    width: 230px;
+    box-shadow: 0 4px 15px rgba(57, 32, 79, 0.08);
+}
+
+.admin-resumen-tarjeta h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #674080;
+}
+
+.admin-resumen-tarjeta p {
+    font-size: 35px;
+    font-weight: bold;
+    color: #39204F;
+    margin: 12px 0 0;
+}
+
+.admin-pedidos-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin: 45px 0 20px;
+}
+
+.admin-pedidos-titulo h2 {
+    color: #39204F;
+}
+
+.admin-pedidos-titulo button {
+    background-color: #674080;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+
+.lista-pedidos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.pedido-card {
+    background-color: white;
+    padding: 22px;
+    border-radius: 12px;
+    border: 1px solid #E9DFD2;
+    box-shadow: 0 4px 15px rgba(57, 32, 79, 0.06);
+}
+
+.pedido-card h3 {
+    color: #674080;
+    text-transform: capitalize;
+    margin-top: 0;
+}
+
+.pedido-card p {
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.admin-error {
+    color: #B42318;
+    margin-top: 15px;
+}
+
+
+@media (max-width: 600px) {
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-contenido {
+        width: 90%;
+    }
+
+    .admin-resumen-tarjeta {
+        width: auto;
+    }
+
+    .admin-pedidos-titulo {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Colores de los estados de los pedidos */
+
+.estado-select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Pendiente: amarillo */
+
+.estado-pendiente {
+    background-color: #FFF2CC;
+    color: #8A6500;
+    border-color: #E9BD55;
+}
+
+/* En preparación: morado */
+
+.estado-en-preparación {
+    background-color: #EDE4F4;
+    color: #674080;
+    border-color: #A58AB9;
+}
+
+/* Entregado: verde */
+
+.estado-entregado {
+    background-color: #E1F3E5;
+    color: #26733D;
+    border-color: #79B98A;
+}

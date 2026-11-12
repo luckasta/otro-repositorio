@@ -1,7 +1,10 @@
 
 import './App.css'
+import { useState } from 'react';
+import Admin from './componentes/admin';
 
 function App() {
+  const [mostrarAdmin, setMostrarAdmin] = useState(false);
   
 const enviarWhatsApp = async (event) => {
   event.preventDefault();
@@ -53,8 +56,20 @@ Detalles: ${mensaje}`;
   }
 };
 
+if (mostrarAdmin) {
+  return (
+    <>
+      <button onClick={() => setMostrarAdmin(false)}>
+        Volver a la página principal
+      </button>
+
+      <Admin />
+    </>
+  );
+}
 
   return (
+    
     <>
       <header>
         <nav>
@@ -65,6 +80,11 @@ Detalles: ${mensaje}`;
             <li><a href="#Productos">Productos</a></li>
             <li><a href="#personalizados">Personalizados</a></li>
             <li><a href="#contacto">Contacto</a></li>
+            <li>
+  <button onClick={() => setMostrarAdmin(true)}>
+    Administración
+  </button>
+</li>
           </ul>
         </nav>
       </header>
