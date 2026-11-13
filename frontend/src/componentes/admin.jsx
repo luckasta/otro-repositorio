@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import './admin.css';
 
 function Admin() {
     const [email, setEmail] = useState('');
@@ -8,6 +9,8 @@ function Admin() {
     const [token, setToken] = useState(localStorage.getItem('tokenAdmin'));
     const [pedidos, setPedidos] = useState([]);
     const [filtro, setFiltro] = useState('Todos');
+    const [seccionActiva, setSeccionActiva] = useState('pedidos');
+    const [promociones, setPromociones] = useState([]);
     const [cargando, setCargando] = useState(false);
     const pedidosFiltrados = pedidos.filter((pedido) => {
     if (filtro === 'Todos') {
@@ -45,6 +48,37 @@ function Admin() {
             setCargando(false);
         }
     };
+
+
+const cargarPromociones = async (tokenAdmin) => {
+    setCargando(true);
+    setError('');
+
+    try {
+        const respuesta = await fetch(
+            'http://localhost:3000/api/admin/promociones',
+            {
+                headers: {
+                    Authorization: `Bearer ${tokenAdmin}`
+                }
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(datos.mensaje);
+        }
+
+        setPromociones(datos);
+
+    } catch (error) {
+        setError(error.message);
+    } finally {
+        setCargando(false);
+    }
+};
+
 
     const actualizarEstado = async (id, nuevoEstado) => {
     try {
@@ -101,6 +135,7 @@ function Admin() {
             setToken(datos.token);
 
             await cargarPedidos(datos.token);
+            await cargarPromociones(datos.token);
 
         } catch (error) {
             setError(error.message);
@@ -137,6 +172,27 @@ function Admin() {
                     <h2>¡Bienvenido!</h2>
                     <p>Aquí puedes gestionar los pedidos de tus clientes.</p>
                 </div>
+
+                <div className="admin-navegacion">
+
+                <button
+                        className={seccionActiva === 'pedidos' ? 'admin-seccion-activa' : ''}
+                        onClick={() => setSeccionActiva('pedidos')}
+                >
+                            Pedidos
+                        </button>
+
+                <button
+                        className={seccionActiva === 'promociones' ? 'admin-seccion-activa' : ''}
+                        onClick={() => setSeccionActiva('promociones')}
+                >
+                            Promociones
+                        </button>
+
+                </div>
+                {seccionActiva === 'pedidos' && (
+                    <>
+                
 
                 <div className="admin-resumen">
                     <div className="admin-resumen-tarjeta">
@@ -210,20 +266,35 @@ function Admin() {
                             </p>
                             <div className="pedido-estado">
                                 <label>Estado del pedido:</label>
-                                <select
-                                className={`estado-select estado-${(pedido.estado || 'Pendiente')
-                                    .toLowerCase()
-                                    .replace(' ', '-')}`}
-                                value={pedido.estado || 'Pendiente'}
-                                onChange={(event) =>
-                                    actualizarEstado(pedido._id, event.target.value)
-                                }
-                            >
-                                    <option value="Pendiente">Pendiente</option>
-                                    <option value="En preparación">En preparación</option>
-                                    <option value="Entregado">Entregado</option>
-                                </select>
+                                
+<div className="estado-botones">
+    <button
+        type="button"
+        className={pedido.estado === 'Pendiente' ? 'estado-opcion pendiente seleccionado' : 'estado-opcion pendiente'}
+        onClick={() => actualizarEstado(pedido._id, 'Pendiente')}
+    >
+        Pendiente
+    </button>
+
+    <button
+        type="button"
+        className={pedido.estado === 'En preparación' ? 'estado-opcion preparacion seleccionado' : 'estado-opcion preparacion'}
+        onClick={() => actualizarEstado(pedido._id, 'En preparación')}
+    >
+        En preparación
+    </button>
+
+    <button
+        type="button"
+        className={pedido.estado === 'Entregado' ? 'estado-opcion entregado seleccionado' : 'estado-opcion entregado'}
+        onClick={() => actualizarEstado(pedido._id, 'Entregado')}
+    >
+        Entregado
+    </button>
+</div>
+
                             </div>
+                            
                             <p>
                                 <strong>Fecha:</strong>{' '}
                                 {pedido.fecha
@@ -234,10 +305,13 @@ function Admin() {
                         </article>
                     ))}
                 </div>
+                    </>
+)}
 
             </div>
         </section>
     );
+
 }
 
     return (

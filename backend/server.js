@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5175'
+    origin: 'http://localhost:5173'
 }));
 
 const uri = process.env.MONGODB_URI;
@@ -106,6 +106,176 @@ app.get('/api/admin/pedidos', verificarToken, async (req, res) => {
         });
     }
 });
+
+app.get('/api/admin/promociones', verificarToken, async (req, res) => {
+    try {
+        const promociones = await db.collection('promociones')
+            .find({})
+            .sort({ _id: -1 })
+            .toArray();
+
+        res.json(promociones);
+
+    } catch (error) {
+        console.error('Error al consultar promociones:', error);
+
+        res.status(500).json({
+            mensaje: 'No se pudieron consultar las promociones'
+        });
+    }
+});
+
+
+app.post('/api/admin/promociones', verificarToken, async (req, res) => {
+    try {
+        const {
+            nombre,
+            descripcion,
+            imagen,
+            precioOriginal,
+            precioOferta,
+            fechaInicio,
+            fechaFin,
+            activa,
+            tipo
+        } = req.body;
+
+        if (
+            !nombre ||
+            !descripcion ||
+            precioOriginal == null ||
+            precioOferta == null ||
+            !fechaInicio ||
+            !fechaFin
+        ) {
+            return res.status(400).json({
+                mensaje: 'Debes completar los campos obligatorios'
+            });
+        }
+
+        const promocion = {
+            nombre,
+            descripcion,
+            imagen: imagen || '',
+            precioOriginal: Number(precioOriginal),
+            precioOferta: Number(precioOferta),
+            fechaInicio: new Date(fechaInicio),
+            fechaFin: new Date(fechaFin),
+            activa: activa !== false,
+            tipo: tipo || 'Combo para regalar',
+            fechaCreacion: new Date()
+        };
+
+        const resultado = await db.collection('promociones')
+            .insertOne(promocion);
+
+        res.status(201).json({
+            mensaje: 'Promoción creada correctamente',
+            id: resultado.insertedId
+        });
+
+    } catch (error) {
+        console.error('Error al crear la promoción:', error);
+
+        res.status(500).json({
+            mensaje: 'No se pudo crear la promoción'
+        });
+    }
+});
+
+
+app.patch('/api/admin/promociones/:id', verificarToken, async (req, res) => {
+    try {
+        const { ObjectId } = require('mongodb');
+
+        const {
+            nombre,
+            descripcion,
+            imagen,
+            precioOriginal,
+            precioOferta,
+            fechaInicio,
+            fechaFin,
+            activa,
+            tipo
+        } = req.body;
+
+        if (!ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                mensaje: 'Identificador de promoción no válido'
+            });
+        }
+
+        const actualizacion = {};
+
+        if (nombre !== undefined) actualizacion.nombre = nombre;
+        if (descripcion !== undefined) actualizacion.descripcion = descripcion;
+        if (imagen !== undefined) actualizacion.imagen = imagen;
+        if (precioOriginal !== undefined) actualizacion.precioOriginal = Number(precioOriginal);
+        if (precioOferta !== undefined) actualizacion.precioOferta = Number(precioOferta);
+        if (fechaInicio !== undefined) actualizacion.fechaInicio = new Date(fechaInicio);
+        if (fechaFin !== undefined) actualizacion.fechaFin = new Date(fechaFin);
+        if (activa !== undefined) actualizacion.activa = activa;
+        if (tipo !== undefined) actualizacion.tipo = tipo;
+
+        const resultado = await db.collection('promociones').updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: actualizacion }
+        );
+
+        if (resultado.matchedCount === 0) {
+            return res.status(404).json({
+                mensaje: 'No se encontró la promoción'
+            });
+        }
+
+        res.json({
+            mensaje: 'Promoción actualizada correctamente'
+        });
+
+    } catch (error) {
+        console.error('Error al actualizar la promoción:', error);
+
+        res.status(500).json({
+            mensaje: 'No se pudo actualizar la promoción'
+        });
+    }
+});
+
+
+app.delete('/api/admin/promociones/:id', verificarToken, async (req, res) => {
+    try {
+        const { ObjectId } = require('mongodb');
+
+        if (!ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                mensaje: 'Identificador de promoción no válido'
+            });
+        }
+
+        const resultado = await db.collection('promociones').deleteOne({
+            _id: new ObjectId(req.params.id)
+        });
+
+        if (resultado.deletedCount === 0) {
+            return res.status(404).json({
+                mensaje: 'No se encontró la promoción'
+            });
+        }
+
+        res.json({
+            mensaje: 'Promoción eliminada correctamente'
+        });
+
+    } catch (error) {
+        console.error('Error al eliminar la promoción:', error);
+
+        res.status(500).json({
+            mensaje: 'No se pudo eliminar la promoción'
+        });
+    }
+});
+
 
 app.patch('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
     try {

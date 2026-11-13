@@ -1,0 +1,172 @@
+
+
+
+.admin-login {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4eff7;
+    padding: 30px;
+}
+
+
+.admin-login-contenido {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(45, 25, 60, 0.12);
+    text-align: center;
+}
+
+.admin-login-contenido h1 {
+    color: #49305f;
+    margin-bottom: 10px;
+}
+
+.admin-login-contenido p {
+    color: #75677e;
+    margin-bottom: 25px;
+}
+
+/* FORMULARIO */
+
+.admin-login-contenido form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 12px;
+}
+
+.admin-login-contenido label {
+    color: #49305f;
+    font-weight: 600;
+}
+
+.admin-login-contenido input {
+    padding: 12px;
+    border: 1px solid #d8cadd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+.admin-login-contenido input:focus {
+    border-color: #8055a5;
+    box-shadow: 0 0 0 3px rgba(128, 85, 165, 0.12);
+}
+
+.admin-login-contenido button {
+    margin-top: 12px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #56386e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.admin-login-contenido button:hover {
+    background: #76518f;
+}
+
+/* Filtros de pedidos */
+.admin-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+/* Botones de los filtros */
+.admin-filtros button {
+    padding: 10px 22px;
+    border: 1px solid #d8c6e8;
+    border-radius: 25px;
+    background-color: #f3edf8;
+    color: #593477;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Efecto al pasar el cursor */
+.admin-filtros button:hover {
+    background-color: #e4d5ef;
+    transform: translateY(-2px);
+}
+
+/* Botón seleccionado */
+.admin-filtros button.filtro-activo {
+    background-color: #593477;
+    color: #ffffff;
+    border-color: #593477;
+    box-shadow: 0 3px 8px rgba(89, 52, 119, 0.25);
+}
+
+/* Efecto al pasar el cursor sobre el seleccionado */
+.admin-filtros button.filtro-activo:hover {
+    background-color: #45265f;
+    border-color: #45265f;
+}
+
+/* Contenedor de los botones de estado */
+.estado-botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Estilo general */
+.estado-opcion {
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0.65;
+    transition: all 0.3s ease;
+}
+
+/* Pendiente */
+.estado-opcion.pendiente {
+    background: #fff1cc;
+    color: #946200;
+}
+
+/* En preparación */
+.estado-opcion.preparacion {
+    background: #eee2f8;
+    color: #593477;
+}
+
+/* Entregado */
+.estado-opcion.entregado {
+    background: #dff3e6;
+    color: #287447;
+}
+
+/* Estado seleccionado */
+.estado-opcion.seleccionado {
+    opacity: 1;
+    border-color: currentColor;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.estado-opcion:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    filter: brightness(0.96);
+}
+
+.estado-opcion:active {
+    transform: scale(0.96);
+}
