@@ -5,9 +5,10 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Admin from './componentes/admin';
 import Inicio from './paginas/Inicio';
 import Productos from './paginas/Productos';
-import Promociones from './paginas/Promociones';
 import Contacto from './paginas/Contactos';
 import Categoria from './paginas/Categoria';
+import Combos from './paginas/Combos';
+import Nosotros from './paginas/Nosotros';
 
 
 function App() {
@@ -21,8 +22,9 @@ function App() {
                     <ul>
                         <li><Link to="/">Inicio</Link></li>
                         <li><Link to="/productos">Productos</Link></li>
-                        <li><Link to="/promociones">Promociones</Link></li>
+                        <li><Link to="/combos">Combos</Link></li>
                         <li><Link to="/contactos">Contactos</Link></li>
+                        <li><Link to="/nosotros">Nosotros</Link></li>
                         <li><Link to="/administracion">Administración</Link></li>
                     </ul>
                 </nav>
@@ -33,9 +35,10 @@ function App() {
                     <Route path="/" element={<Inicio />} />
                     <Route path="/productos" element={<Productos />} />
                     <Route path="/productos/:tipo" element={<Categoria />} />
-                    <Route path="/promociones" element={<Promociones />} />
                     <Route path="/contactos" element={<Contacto />} />
                     <Route path="/administracion" element={<Admin />} />
+                    <Route path="/combos" element={<Combos />} />
+                    <Route path="/nosotros" element={<Nosotros />} />
                 </Routes>
             </main>
 
@@ -54,7 +57,7 @@ function App() {
                         <h3>Explora</h3>
                         <Link to="/">Inicio</Link>
                         <Link to="/productos">Productos</Link>
-                        <Link to="/promociones">Promociones</Link>
+                        <Link to="/combos">Combos</Link>
                         <Link to="/contactos">Contactos</Link>
                     </div>
 

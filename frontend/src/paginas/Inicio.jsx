@@ -26,40 +26,22 @@ function Inicio() {
                 
 <div className="creaciones-grid">
 
-    <Link to="/promociones" className="creacion-card">
+    <Link to="/combos" className="creacion-card">
         <img
-            src="/imagenes/portadadetortas.jpg"
-            alt="Tortas personalizadas"
+            src="/imagenes/combos.png"
+            alt="Combos de Dulce Tentación"
         />
-        <h3>Tortas</h3>
-        <span>Descubrir promociones</span>
+        <h3>Nuestros combos</h3>
+        <span>Descubre nuestras opciones</span>
     </Link>
 
-    <Link to="/promociones" className="creacion-card">
+    <Link to="/nosotros" className="creacion-card">
         <img
-            src="/imagenes/portadadecupcake.jpg"
-            alt="Cupcakes creativos"
+            src="/imagenes/nosotros.png"
+            alt="Nuestra historia"
         />
-        <h3>Cupcakes</h3>
-        <span>Descubrir promociones</span>
-    </Link>
-
-    <Link to="/promociones" className="creacion-card">
-        <img
-            src="/imagenes/portadadepostres.png"
-            alt="Postres variados"
-        />
-        <h3>Postres</h3>
-        <span>Descubrir promociones</span>
-    </Link>
-
-    <Link to="/promociones" className="creacion-card">
-        <img
-            src="/imagenes/portadadegalletas.jpg"
-            alt="Galletas decoradas"
-        />
-        <h3>Galletas</h3>
-        <span>Descubrir promociones</span>
+        <h3>Conoce nuestra historia</h3>
+        <span>Descubre quiénes somos</span>
     </Link>
 
 </div>

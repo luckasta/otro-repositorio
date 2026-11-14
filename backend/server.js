@@ -107,175 +107,148 @@ app.get('/api/admin/pedidos', verificarToken, async (req, res) => {
     }
 });
 
-app.get('/api/admin/promociones', verificarToken, async (req, res) => {
+
+
+app.get('/api/admin/combos', verificarToken, async (req, res) => {
     try {
-        const promociones = await db.collection('promociones')
+        const combos = await db.collection('combos')
             .find({})
             .sort({ _id: -1 })
             .toArray();
 
-        res.json(promociones);
+        res.json(combos);
 
     } catch (error) {
-        console.error('Error al consultar promociones:', error);
+        console.error('Error al consultar combos:', error);
 
         res.status(500).json({
-            mensaje: 'No se pudieron consultar las promociones'
+            mensaje: 'No se pudieron consultar los combos'
         });
     }
 });
 
-
-app.post('/api/admin/promociones', verificarToken, async (req, res) => {
+app.post('/api/admin/combos', verificarToken, async (req, res) => {
     try {
         const {
             nombre,
             descripcion,
             imagen,
-            precioOriginal,
-            precioOferta,
-            fechaInicio,
-            fechaFin,
-            activa,
-            tipo
+            precio,
+            activa
         } = req.body;
 
-        if (
-            !nombre ||
-            !descripcion ||
-            precioOriginal == null ||
-            precioOferta == null ||
-            !fechaInicio ||
-            !fechaFin
-        ) {
+        if (!nombre || !descripcion || !precio) {
             return res.status(400).json({
-                mensaje: 'Debes completar los campos obligatorios'
+                mensaje: 'El nombre, la descripción y el precio son obligatorios'
             });
         }
 
-        const promocion = {
+        const nuevoCombo = {
             nombre,
             descripcion,
             imagen: imagen || '',
-            precioOriginal: Number(precioOriginal),
-            precioOferta: Number(precioOferta),
-            fechaInicio: new Date(fechaInicio),
-            fechaFin: new Date(fechaFin),
-            activa: activa !== false,
-            tipo: tipo || 'Combo para regalar',
+            precio: Number(precio),
+            activa: activa !== undefined ? activa : true,
             fechaCreacion: new Date()
         };
 
-        const resultado = await db.collection('promociones')
-            .insertOne(promocion);
+        const resultado = await db.collection('combos').insertOne(nuevoCombo);
 
         res.status(201).json({
-            mensaje: 'Promoción creada correctamente',
-            id: resultado.insertedId
+            mensaje: 'Combo registrado correctamente',
+            combo: {
+                _id: resultado.insertedId,
+                ...nuevoCombo
+            }
         });
 
     } catch (error) {
-        console.error('Error al crear la promoción:', error);
+        console.error('Error al registrar combo:', error);
 
         res.status(500).json({
-            mensaje: 'No se pudo crear la promoción'
+            mensaje: 'No se pudo registrar el combo'
         });
     }
 });
 
-
-app.patch('/api/admin/promociones/:id', verificarToken, async (req, res) => {
+app.patch('/api/admin/combos/:id', verificarToken, async (req, res) => {
     try {
         const { ObjectId } = require('mongodb');
+        const { id } = req.params;
 
-        const {
-            nombre,
-            descripcion,
-            imagen,
-            precioOriginal,
-            precioOferta,
-            fechaInicio,
-            fechaFin,
-            activa,
-            tipo
-        } = req.body;
-
-        if (!ObjectId.isValid(req.params.id)) {
+        if (!ObjectId.isValid(id)) {
             return res.status(400).json({
-                mensaje: 'Identificador de promoción no válido'
+                mensaje: 'ID de combo no válido'
             });
         }
+
+        const { nombre, descripcion, imagen, precio, activa } = req.body;
 
         const actualizacion = {};
 
         if (nombre !== undefined) actualizacion.nombre = nombre;
         if (descripcion !== undefined) actualizacion.descripcion = descripcion;
         if (imagen !== undefined) actualizacion.imagen = imagen;
-        if (precioOriginal !== undefined) actualizacion.precioOriginal = Number(precioOriginal);
-        if (precioOferta !== undefined) actualizacion.precioOferta = Number(precioOferta);
-        if (fechaInicio !== undefined) actualizacion.fechaInicio = new Date(fechaInicio);
-        if (fechaFin !== undefined) actualizacion.fechaFin = new Date(fechaFin);
+        if (precio !== undefined) actualizacion.precio = Number(precio);
         if (activa !== undefined) actualizacion.activa = activa;
-        if (tipo !== undefined) actualizacion.tipo = tipo;
 
-        const resultado = await db.collection('promociones').updateOne(
-            { _id: new ObjectId(req.params.id) },
+        const resultado = await db.collection('combos').updateOne(
+            { _id: new ObjectId(id) },
             { $set: actualizacion }
         );
 
         if (resultado.matchedCount === 0) {
             return res.status(404).json({
-                mensaje: 'No se encontró la promoción'
+                mensaje: 'No se encontró el combo'
             });
         }
 
         res.json({
-            mensaje: 'Promoción actualizada correctamente'
+            mensaje: 'Combo actualizado correctamente'
         });
 
     } catch (error) {
-        console.error('Error al actualizar la promoción:', error);
+        console.error('Error al actualizar combo:', error);
 
         res.status(500).json({
-            mensaje: 'No se pudo actualizar la promoción'
+            mensaje: 'No se pudo actualizar el combo'
         });
     }
 });
 
-
-app.delete('/api/admin/promociones/:id', verificarToken, async (req, res) => {
+app.delete('/api/admin/combos/:id', verificarToken, async (req, res) => {
     try {
         const { ObjectId } = require('mongodb');
+        const { id } = req.params;
 
-        if (!ObjectId.isValid(req.params.id)) {
+        if (!ObjectId.isValid(id)) {
             return res.status(400).json({
-                mensaje: 'Identificador de promoción no válido'
+                mensaje: 'ID de combo no válido'
             });
         }
 
-        const resultado = await db.collection('promociones').deleteOne({
-            _id: new ObjectId(req.params.id)
+        const resultado = await db.collection('combos').deleteOne({
+            _id: new ObjectId(id)
         });
 
         if (resultado.deletedCount === 0) {
             return res.status(404).json({
-                mensaje: 'No se encontró la promoción'
+                mensaje: 'No se encontró el combo'
             });
         }
 
         res.json({
-            mensaje: 'Promoción eliminada correctamente'
+            mensaje: 'Combo eliminado correctamente'
         });
 
     } catch (error) {
-        console.error('Error al eliminar la promoción:', error);
+        console.error('Error al eliminar combo:', error);
 
         res.status(500).json({
-            mensaje: 'No se pudo eliminar la promoción'
+            mensaje: 'No se pudo eliminar el combo'
         });
     }
 });
-
 
 app.patch('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
     try {

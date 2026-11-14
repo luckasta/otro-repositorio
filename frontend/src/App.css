@@ -734,9 +734,9 @@ header nav ul li a:hover {
 
 .creaciones-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-    max-width: 1200px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    max-width: 850px;
     margin: 0 auto;
 }
 
@@ -819,74 +819,224 @@ header nav ul li a:hover {
     }
 }
 
+.pagina-nosotros {
+    background-color: #F8F3EA;
+    padding: 65px 6%;
+    color: #725D4D;
+}
 
+.nosotros-historia {
+    max-width: 950px;
+    margin: 0 auto 55px;
+    text-align: center;
+}
 
-/* Página de promociones */
-.pagina-promociones {
+.nosotros-historia h1 {
+    color: #593477;
+    font-size: 38px;
+    margin-bottom: 25px;
+}
+
+.nosotros-historia p {
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.nosotros-quienes {
+    max-width: 950px;
+    margin: 0 auto 45px;
+    padding: 35px;
+    background-color: white;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(89, 52, 119, 0.12);
+    text-align: center;
+}
+
+.nosotros-mision-vision {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+.nosotros-mision-vision article {
+    padding: 35px;
+    background-color: white;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(89, 52, 119, 0.12);
+    border-bottom: 4px solid #D6B84A;
+    transition: transform 0.3s ease;
+}
+
+.nosotros-mision-vision article:hover {
+    transform: translateY(-6px);
+}
+
+.nosotros-quienes h2,
+.nosotros-mision-vision h2 {
+    color: #593477;
+    font-size: 25px;
+    margin-bottom: 18px;
+}
+
+.nosotros-quienes p,
+.nosotros-mision-vision p {
+    color: #725D4D;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .pagina-nosotros {
+        padding: 40px 5%;
+    }
+
+    .nosotros-historia h1 {
+        font-size: 30px;
+    }
+
+    .nosotros-mision-vision {
+        grid-template-columns: 1fr;
+    }
+
+    .nosotros-quienes,
+    .nosotros-mision-vision article {
+        padding: 25px;
+    }
+}
+
+.pagina-combos {
     padding: 65px 6%;
     text-align: center;
     background-color: #F8F3EA;
 }
 
-.pagina-promociones h2 {
+.pagina-combos > h2 {
     color: #593477;
     font-size: 34px;
     margin-bottom: 15px;
 }
 
-.pagina-promociones > p {
+.pagina-combos > p {
     color: #725D4D;
     font-size: 17px;
     margin-bottom: 40px;
     line-height: 1.6;
 }
 
-/* Distribución de las tarjetas */
-.promociones-contenido {
+.combos-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    max-width: 1100px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
-/* Diseño individual de cada tarjeta */
-.tarjeta-promocion {
+.combo-tarjeta {
     background-color: white;
-    padding: 35px 25px;
     border-radius: 16px;
+    overflow: hidden;
+    padding-bottom: 25px;
     box-shadow: 0 4px 14px rgba(89, 52, 119, 0.12);
     border-bottom: 4px solid #D6B84A;
     transition: transform 0.3s ease;
 }
 
-.tarjeta-promocion:hover {
+.combo-tarjeta:hover {
     transform: translateY(-6px);
 }
 
-.tarjeta-promocion h3 {
-    color: #593477;
-    font-size: 22px;
-    margin-bottom: 15px;
+.combo-tarjeta img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
 }
 
-.tarjeta-promocion p {
+.combo-tarjeta h3 {
+    color: #593477;
+    font-size: 23px;
+    margin: 20px 0 12px;
+}
+
+.combo-tarjeta p {
     color: #725D4D;
     line-height: 1.7;
-    margin-bottom: 25px;
+    padding: 0 20px;
 }
 
-.tarjeta-promocion a {
-    display: inline-block;
+.combo-tarjeta span {
+    display: block;
+    color: #593477;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.combo-tarjeta button,
+.combo-tarjeta .boton-elegir-combo {
     background-color: #593477;
     color: white;
-    text-decoration: none;
-    padding: 11px 20px;
+    border: none;
+    padding: 12px 22px;
     border-radius: 8px;
+    cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
-.tarjeta-promocion a:hover {
+.combo-tarjeta button:hover,
+.combo-tarjeta .boton-elegir-combo:hover {
     background-color: #8A5BAA;
+}
+
+.combo-personalizado {
+    margin: 55px auto 0;
+    max-width: 800px;
+    padding: 35px;
+    background-color: white;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(89, 52, 119, 0.12);
+}
+
+.combo-personalizado h2 {
+    color: #593477;
+    margin-bottom: 15px;
+}
+
+.combo-personalizado p {
+    color: #725D4D;
+    margin-bottom: 25px;
+}
+
+.combo-personalizado a {
+    display: inline-block;
+    background-color: #593477;
+    color: white;
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+}
+
+.combo-seleccionado {
+    background-color: white;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-left: 5px solid #D6B84A;
+    box-shadow: 0 4px 14px rgba(89, 52, 119, 0.12);
+    text-align: left;
+}
+
+.combo-seleccionado span {
+    display: block;
+    color: #725D4D;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.combo-seleccionado h3 {
+    color: #593477;
+    font-size: 23px;
+    margin: 0;
 }

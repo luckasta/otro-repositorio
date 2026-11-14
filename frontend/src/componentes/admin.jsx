@@ -10,7 +10,7 @@ function Admin() {
     const [pedidos, setPedidos] = useState([]);
     const [filtro, setFiltro] = useState('Todos');
     const [seccionActiva, setSeccionActiva] = useState('pedidos');
-    const [promociones, setPromociones] = useState([]);
+    const [combos, setCombos] = useState([]);
     const [cargando, setCargando] = useState(false);
     const pedidosFiltrados = pedidos.filter((pedido) => {
     if (filtro === 'Todos') {
@@ -50,19 +50,16 @@ function Admin() {
     };
 
 
-const cargarPromociones = async (tokenAdmin) => {
+const cargarCombos = async (tokenAdmin) => {
     setCargando(true);
     setError('');
 
     try {
-        const respuesta = await fetch(
-            'http://localhost:3000/api/admin/promociones',
-            {
-                headers: {
-                    Authorization: `Bearer ${tokenAdmin}`
-                }
+        const respuesta = await fetch('http://localhost:3000/api/admin/combos', {
+            headers: {
+                Authorization: `Bearer ${tokenAdmin}`
             }
-        );
+        });
 
         const datos = await respuesta.json();
 
@@ -70,7 +67,7 @@ const cargarPromociones = async (tokenAdmin) => {
             throw new Error(datos.mensaje);
         }
 
-        setPromociones(datos);
+        setCombos(datos);
 
     } catch (error) {
         setError(error.message);
@@ -135,7 +132,7 @@ const cargarPromociones = async (tokenAdmin) => {
             setToken(datos.token);
 
             await cargarPedidos(datos.token);
-            await cargarPromociones(datos.token);
+            await cargarCombos(datos.token);
 
         } catch (error) {
             setError(error.message);
@@ -183,11 +180,11 @@ const cargarPromociones = async (tokenAdmin) => {
                         </button>
 
                 <button
-                        className={seccionActiva === 'promociones' ? 'admin-seccion-activa' : ''}
-                        onClick={() => setSeccionActiva('promociones')}
-                >
-                            Promociones
-                        </button>
+    className={seccionActiva === 'combos' ? 'admin-seccion-activa' : ''}
+    onClick={() => setSeccionActiva('combos')}
+>
+    Combos
+</button>
 
                 </div>
                 {seccionActiva === 'pedidos' && (
@@ -260,6 +257,65 @@ const cargarPromociones = async (tokenAdmin) => {
                             <p>
                                 <strong>Correo:</strong> {pedido.correo}
                             </p>
+                            {pedido.tematica && (
+    <p>
+        <strong>Temática:</strong> {pedido.tematica}
+    </p>
+)}
+
+{pedido.colores && (
+    <p>
+        <strong>Colores:</strong> {pedido.colores}
+    </p>
+)}
+
+{pedido.sabor && (
+    <p>
+        <strong>Sabor:</strong> {pedido.sabor}
+    </p>
+)}
+
+{pedido.relleno && (
+    <p>
+        <strong>Relleno:</strong> {pedido.relleno}
+    </p>
+)}
+
+{pedido.porciones && (
+    <p>
+        <strong>Porciones:</strong> {pedido.porciones}
+    </p>
+)}
+
+{pedido.cantidad && (
+    <p>
+        <strong>Cantidad:</strong> {pedido.cantidad}
+    </p>
+)}
+
+{pedido.decoracion && (
+    <p>
+        <strong>Decoración:</strong> {pedido.decoracion}
+    </p>
+)}
+
+{pedido.forma && (
+    <p>
+        <strong>Forma:</strong> {pedido.forma}
+    </p>
+)}
+
+{pedido.tipoPostre && (
+    <p>
+        <strong>Tipo de postre:</strong> {pedido.tipoPostre}
+    </p>
+)}
+
+{pedido.presentacion && (
+    <p>
+        <strong>Presentación:</strong> {pedido.presentacion}
+    </p>
+)}
 
                             <p>
                                 <strong>Detalles:</strong> {pedido.mensaje}
@@ -306,6 +362,37 @@ const cargarPromociones = async (tokenAdmin) => {
                     ))}
                 </div>
                     </>
+)}
+
+{seccionActiva === 'combos' && (
+    <section className="admin-combos">
+        <div className="admin-combos-titulo">
+            <h2>Administrar combos</h2>
+            <p>
+                Aquí puedes consultar y gestionar los combos
+                disponibles de Dulce Tentación.
+            </p>
+        </div>
+
+        {cargando ? (
+            <p>Cargando combos...</p>
+        ) : combos.length === 0 ? (
+            <p>Aún no hay combos registrados.</p>
+        ) : (
+            <div className="admin-combos-lista">
+                {combos.map((combo) => (
+                    <article key={combo._id} className="admin-combo-tarjeta">
+                        <h3>{combo.nombre}</h3>
+                        <p>{combo.descripcion}</p>
+                        <p>Precio: ${combo.precio}</p>
+                        <p>
+                            Estado: {combo.activa ? 'Activo' : 'Inactivo'}
+                        </p>
+                    </article>
+                ))}
+            </div>
+        )}
+    </section>
 )}
 
             </div>

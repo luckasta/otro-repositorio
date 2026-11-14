@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 
 function Categoria() {
     const { tipo } = useParams();
+    console.log('Categoría seleccionada:', tipo);
 
     const categorias = {
         tortas: {
@@ -76,16 +77,31 @@ function Categoria() {
             </div>
 
             <div className="informacion-precio">
-                <h3>¡Una torta hecha para ti!</h3>
+                <h3>
+                    {tipo === 'tortas' && '¡Una torta hecha para ti!'}
+                    {tipo === 'cupcakes' && '¡Cupcakes diseñados para ti!'}
+                    {tipo === 'galletas' && '¡Galletas hechas a tu gusto!'}
+                    {tipo === 'postres' && '¡Postres para cada ocasión!'}
+                </h3>
 
                 <p>
-                    El precio depende del tamaño, sabor y nivel de decoración.
+                    {tipo === 'tortas' && 'El precio depende del tamaño, sabor y nivel de decoración.'}
+                    {tipo === 'cupcakes' && 'Personaliza tus cupcakes con tus sabores, colores y decoraciones favoritas.'}
+                    {tipo === 'galletas' && 'Elige las formas, sabores y diseños que más te gusten.'}
+                    {tipo === 'postres' && 'Personaliza tus postres según el sabor, la presentación y la cantidad.'}
                 </p>
 
                 <h2>Desde $...</h2>
 
-                <Link to="/contacto" className="boton-producto">
-                    Quiero crear mi torta
+                <Link
+                    to="/contactos"
+                    state={{
+                        personalizar: true,
+                        producto: tipo
+                    }}
+                    className="boton-producto"
+                >
+                    Quiero personalizar
                 </Link>
             </div>
 
