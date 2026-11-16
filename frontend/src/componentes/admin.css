@@ -123,6 +123,48 @@
     margin-top: 10px;
 }
 
+/* NAVEGACIÓN DEL ADMINISTRADOR */
+
+.admin-navegacion {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+    padding: 12px;
+    background-color: #eee8f5;
+    border-radius: 14px;
+}
+
+.admin-nav-boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    color: #50376b;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.admin-nav-boton:hover {
+    background-color: #ddd0eb;
+    transform: translateY(-2px);
+}
+
+.admin-nav-boton.admin-seccion-activa {
+    background-color: #67458a;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(67, 42, 91, 0.2);
+}
+
+.admin-nav-icono {
+    font-size: 19px;
+}
+
 /* Estilo general */
 .estado-opcion {
     padding: 8px 12px;

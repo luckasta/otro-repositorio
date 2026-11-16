@@ -107,7 +107,23 @@ app.get('/api/admin/pedidos', verificarToken, async (req, res) => {
     }
 });
 
+app.get('/api/combos', async (req, res) => {
+    try {
+        const combos = await db.collection('combos')
+            .find({ activa: true })
+            .sort({ _id: -1 })
+            .toArray();
 
+        res.json(combos);
+
+    } catch (error) {
+        console.error('Error al consultar combos públicos:', error);
+
+        res.status(500).json({
+            mensaje: 'No se pudieron consultar los combos'
+        });
+    }
+});
 
 app.get('/api/admin/combos', verificarToken, async (req, res) => {
     try {

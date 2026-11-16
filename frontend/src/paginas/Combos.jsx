@@ -1,7 +1,31 @@
 
 import { Link } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
 function Combos() {
+    const [combos, setCombos] = useState([]);
+const [cargando, setCargando] = useState(true);
+
+useEffect(() => {
+    const cargarCombos = async () => {
+        try {
+            const respuesta = await fetch('http://localhost:3000/api/combos');
+            const datos = await respuesta.json();
+
+            if (!respuesta.ok) {
+                throw new Error('No se pudieron cargar los combos');
+            }
+
+            setCombos(datos);
+
+        } catch (error) {
+            console.error('Error al cargar los combos:', error);
+        } finally {
+            setCargando(false);
+        }
+    };
+
+    cargarCombos();
+}, []);
     return (
         <section className="pagina-combos">
 
@@ -15,7 +39,7 @@ function Combos() {
             <div className="combos-grid">
 
                 <article className="combo-tarjeta">
-                    <img src="/imagenes/combo-dulce.jpg" alt="Combo Dulce" />
+                    <img src="/imagenes/combo dulce.jpeg" alt="Combo Dulce" />
                     <h3>Combo Dulce</h3>
                     <p>Cupcakes y galletas decoradas para disfrutar de algo delicioso.</p>
                     <span>Precio: $ Por definir</span>
@@ -29,7 +53,7 @@ function Combos() {
                 </article>
 
                 <article className="combo-tarjeta">
-                    <img src="/imagenes/combo-celebracion.jpg" alt="Combo Celebración" />
+                    <img src="/imagenes/combo celebracion.jpeg" alt="Combo Celebración" />
                     <h3>Combo Celebración</h3>
                     <p>Una mini torta acompañada de deliciosos cupcakes.</p>
                     <span>Precio: $ Por definir</span>
@@ -43,7 +67,7 @@ function Combos() {
                 </article>
 
                 <article className="combo-tarjeta">
-                    <img src="/imagenes/combo-galletitas.jpg" alt="Combo Galletitas" />
+                    <img src="/imagenes/combo galletas.jpeg" alt="Combo Galletitas" />
                     <h3>Combo Galletitas</h3>
                     <p>Una selección de galletas decoradas con diseños especiales.</p>
                     <span>Precio: $ Por definir</span>
@@ -57,7 +81,7 @@ function Combos() {
                 </article>
 
                 <article className="combo-tarjeta">
-                    <img src="/imagenes/combo-especial.jpg" alt="Combo Especial" />
+                    <img src="/imagenes/combo especial.jpeg" alt="Combo Especial" />
                     <h3>Combo Especial</h3>
                     <p>Una variedad de pequeños postres para compartir.</p>
                     <span>Precio: $ Por definir</span>
@@ -69,6 +93,31 @@ function Combos() {
                         Elegir este combo
                     </Link>
                 </article>
+                {combos.map((combo) => (
+    <article className="combo-tarjeta" key={combo._id}>
+
+        {combo.imagen && (
+            <img src={combo.imagen} alt={combo.nombre} />
+        )}
+
+        <h3>{combo.nombre}</h3>
+
+        <p>{combo.descripcion}</p>
+
+        <span>
+            Precio: ${Number(combo.precio).toLocaleString('es-CO')}
+        </span>
+
+        <Link
+            to="/contactos"
+            state={{ combo: combo.nombre }}
+            className="boton-elegir-combo"
+        >
+            Elegir este combo
+        </Link>
+
+    </article>
+))}
 
             </div>
 

@@ -11,6 +11,14 @@ function Admin() {
     const [filtro, setFiltro] = useState('Todos');
     const [seccionActiva, setSeccionActiva] = useState('pedidos');
     const [combos, setCombos] = useState([]);
+    const [nuevoCombo, setNuevoCombo] = useState({
+    nombre: '',
+    descripcion: '',
+    imagen: '',
+    precio: '',
+    activa: true
+});
+    const [comboEditando, setComboEditando] = useState(null);
     const [cargando, setCargando] = useState(false);
     const pedidosFiltrados = pedidos.filter((pedido) => {
     if (filtro === 'Todos') {
@@ -76,7 +84,130 @@ const cargarCombos = async (tokenAdmin) => {
     }
 };
 
+const guardarCombo = async (event) => {
+    event.preventDefault();
 
+    try {
+        const respuesta = await fetch('http://localhost:3000/api/admin/combos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(nuevoCombo)
+        });
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(datos.mensaje);
+        }
+
+        alert('¡Combo registrado correctamente!');
+
+        setNuevoCombo({
+            nombre: '',
+            descripcion: '',
+            imagen: '',
+            precio: '',
+            activa: true
+        });
+
+        cargarCombos(token);
+
+    } catch (error) {
+        console.error('Error al guardar combo:', error);
+        alert(error.message);
+    }
+};
+
+const actualizarCombo = async (event) => {
+    event.preventDefault();
+
+    try {
+        const respuesta = await fetch(
+            `http://localhost:3000/api/admin/combos/${comboEditando._id}`,
+            {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(nuevoCombo)
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(datos.mensaje);
+        }
+
+        alert('¡Combo actualizado correctamente!');
+
+        setComboEditando(null);
+
+        setNuevoCombo({
+            nombre: '',
+            descripcion: '',
+            imagen: '',
+            precio: '',
+            activa: true
+        });
+
+        cargarCombos(token);
+
+    } catch (error) {
+        console.error('Error al actualizar combo:', error);
+        alert(error.message);
+    }
+};
+
+const editarCombo = (combo) => {
+    setComboEditando(combo);
+
+    setNuevoCombo({
+        nombre: combo.nombre,
+        descripcion: combo.descripcion,
+        imagen: combo.imagen || '',
+        precio: combo.precio,
+        activa: combo.activa
+    });
+};
+
+const eliminarCombo = async (id) => {
+    const confirmar = window.confirm(
+        '¿Estás seguro de que deseas eliminar este combo?'
+    );
+
+    if (!confirmar) return;
+
+    try {
+        const respuesta = await fetch(
+            `http://localhost:3000/api/admin/combos/${id}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(datos.mensaje);
+        }
+
+        alert('Combo eliminado correctamente');
+
+        cargarCombos(token);
+
+    } catch (error) {
+        console.error('Error al eliminar combo:', error);
+        alert(error.message);
+    }
+};
     const actualizarEstado = async (id, nuevoEstado) => {
     try {
         const respuesta = await fetch(
@@ -172,21 +303,23 @@ const cargarCombos = async (tokenAdmin) => {
 
                 <div className="admin-navegacion">
 
-                <button
-                        className={seccionActiva === 'pedidos' ? 'admin-seccion-activa' : ''}
-                        onClick={() => setSeccionActiva('pedidos')}
-                >
-                            Pedidos
-                        </button>
+    <button
+        className={`admin-nav-boton ${seccionActiva === 'pedidos' ? 'admin-seccion-activa' : ''}`}
+        onClick={() => setSeccionActiva('pedidos')}
+    >
+        <span className="admin-nav-icono">📦</span>
+        <span>Pedidos</span>
+    </button>
 
-                <button
-    className={seccionActiva === 'combos' ? 'admin-seccion-activa' : ''}
-    onClick={() => setSeccionActiva('combos')}
->
-    Combos
-</button>
+    <button
+        className={`admin-nav-boton ${seccionActiva === 'combos' ? 'admin-seccion-activa' : ''}`}
+        onClick={() => setSeccionActiva('combos')}
+    >
+        <span className="admin-nav-icono">🧁</span>
+        <span>Gestión de combos</span>
+    </button>
 
-                </div>
+</div>
                 {seccionActiva === 'pedidos' && (
                     <>
                 
@@ -373,6 +506,93 @@ const cargarCombos = async (tokenAdmin) => {
                 disponibles de Dulce Tentación.
             </p>
         </div>
+        <form
+        className="admin-combos-formulario"
+        onSubmit={comboEditando ? actualizarCombo : guardarCombo}
+>
+
+    <h3>
+    {comboEditando ? 'Editar combo' : 'Agregar un nuevo combo'}
+</h3>
+
+    <div className="campo">
+        <label htmlFor="nombreCombo">Nombre del combo</label>
+        <input
+            type="text"
+            id="nombreCombo"
+            value={nuevoCombo.nombre}
+            onChange={(e) => setNuevoCombo({
+                ...nuevoCombo,
+                nombre: e.target.value
+            })}
+            required
+        />
+    </div>
+
+    <div className="campo">
+        <label htmlFor="descripcionCombo">Descripción</label>
+        <textarea
+            id="descripcionCombo"
+            value={nuevoCombo.descripcion}
+            onChange={(e) => setNuevoCombo({
+                ...nuevoCombo,
+                descripcion: e.target.value
+            })}
+            required
+        />
+    </div>
+
+    <div className="campo">
+        <label htmlFor="precioCombo">Precio</label>
+        <input
+            type="number"
+            id="precioCombo"
+            min="1"
+            value={nuevoCombo.precio}
+            onChange={(e) => setNuevoCombo({
+                ...nuevoCombo,
+                precio: e.target.value
+            })}
+            required
+        />
+    </div>
+    <div className="campo">
+    <label htmlFor="imagenCombo">Imagen del combo</label>
+    <input
+        type="text"
+        id="imagenCombo"
+        value={nuevoCombo.imagen}
+        onChange={(e) => setNuevoCombo({
+            ...nuevoCombo,
+            imagen: e.target.value
+        })}
+        placeholder="/imagenes/combo-dulce.jpg"
+    />
+</div>
+
+    <button type="submit">
+    {comboEditando ? 'Guardar cambios' : 'Guardar combo'}
+</button>
+
+{comboEditando && (
+    <button
+        type="button"
+        onClick={() => {
+            setComboEditando(null);
+            setNuevoCombo({
+                nombre: '',
+                descripcion: '',
+                imagen: '',
+                precio: '',
+                activa: true
+            });
+        }}
+    >
+        Cancelar edición
+    </button>
+)}
+
+</form>
 
         {cargando ? (
             <p>Cargando combos...</p>
@@ -388,6 +608,18 @@ const cargarCombos = async (tokenAdmin) => {
                         <p>
                             Estado: {combo.activa ? 'Activo' : 'Inactivo'}
                         </p>
+                        <button
+                            type="button"
+                            onClick={() => editarCombo(combo)}
+                        >
+                            Editar
+                        </button>
+                        <button
+    type="button"
+    onClick={() => eliminarCombo(combo._id)}
+>
+    Eliminar
+</button>
                     </article>
                 ))}
             </div>
