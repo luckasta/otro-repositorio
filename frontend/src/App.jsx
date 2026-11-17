@@ -15,20 +15,34 @@ function App() {
     return (
         <BrowserRouter>
 
-            <header>
-                <nav>
-                    <h1>Dulce Tentación</h1>
+           <header>
+               <nav>
+                  <div className="marca">
 
-                    <ul>
-                        <li><Link to="/">Inicio</Link></li>
-                        <li><Link to="/productos">Productos</Link></li>
-                        <li><Link to="/combos">Combos</Link></li>
-                        <li><Link to="/contactos">Contactos</Link></li>
-                        <li><Link to="/nosotros">Nosotros</Link></li>
-                        <li><Link to="/administracion">Administración</Link></li>
-                    </ul>
-                </nav>
-            </header>
+    <Link to="/" className="logo-marca">
+        <img
+            src="/imagenes/logo-grande2.png"
+            alt="Dulce Tentación - Repostería creativa"
+        />
+    </Link>
+
+    <p className="eslogan">
+        Pequeños detalles, grandes momentos
+    </p>
+
+    <ul>
+        <li><Link to="/">Inicio</Link></li>
+        <li><Link to="/productos">Productos</Link></li>
+        <li><Link to="/combos">Combos</Link></li>
+        <li><Link to="/contactos">Contactos</Link></li>
+        <li><Link to="/nosotros">Nosotros</Link></li>
+        <li><Link to="/administracion">Administración</Link></li>
+    </ul>
+
+</div>
+                   
+               </nav>
+           </header>
 
             <main>
                 <Routes>

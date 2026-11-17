@@ -237,6 +237,40 @@ const eliminarCombo = async (id) => {
     }
 };
 
+const eliminarPedido = async (id) => {
+    const confirmar = window.confirm(
+        '¿Estás seguro de que deseas eliminar este pedido? Esta acción no se puede deshacer.'
+    );
+
+    if (!confirmar) return;
+
+    try {
+        const respuesta = await fetch(
+            `http://localhost:3000/api/admin/pedidos/${id}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(datos.mensaje);
+        }
+
+        alert('Pedido eliminado correctamente');
+
+        await cargarPedidos(token);
+
+    } catch (error) {
+        console.error('Error al eliminar pedido:', error);
+        setError(error.message);
+    }
+};
+
     const iniciarSesion = async (event) => {
         event.preventDefault();
         setError('');
@@ -367,6 +401,13 @@ const eliminarCombo = async (id) => {
     >
         Entregados
     </button>
+
+    <button
+        className={filtro === 'Cancelado' ? 'filtro-activo' : ''}
+        onClick={() => setFiltro('Cancelado')}
+    >
+        Cancelados
+    </button>
 </div>
 
                 {cargando && <p>Cargando pedidos...</p>}
@@ -480,6 +521,11 @@ const eliminarCombo = async (id) => {
     >
         Entregado
     </button>
+{pedido.estado === 'Cancelado' && (
+    <span className="estado-opcion cancelado seleccionado">
+        Cancelado
+    </span>
+)}
 </div>
 
                             </div>
@@ -490,6 +536,43 @@ const eliminarCombo = async (id) => {
                                 ? new Date(pedido.fecha).toLocaleString('es-CO')
                                 : 'Pedido anterior'}
                             </p>
+
+                            <p>
+    <strong>Fecha de entrega:</strong>{' '}
+    {pedido.fechaEntrega
+        ? new Date(`${pedido.fechaEntrega}T00:00:00`).toLocaleDateString('es-CO')
+        : 'No especificada'}
+</p>
+
+<p><p>
+    <strong>Hora de entrega:</strong>{' '}
+    {pedido.horaEntrega
+        ? pedido.horaEntrega.slice(0, 5)
+        : 'No especificada'}
+</p>
+    <strong>Hora de entrega:</strong>{' '}
+    {pedido.horaEntrega || 'No especificada'}
+</p>
+
+                             <div className="pedido-acciones">
+
+    <button
+        type="button"
+        className="pedido-cancelar"
+        onClick={() => actualizarEstado(pedido._id, 'Cancelado')}
+    >
+        Cancelar pedido
+    </button>
+
+    <button
+        type="button"
+        className="pedido-eliminar"
+        onClick={() => eliminarPedido(pedido._id)}
+    >
+        Eliminar pedido
+    </button>
+
+</div>
 
                         </article>
                     ))}

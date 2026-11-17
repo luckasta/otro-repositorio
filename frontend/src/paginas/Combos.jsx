@@ -29,12 +29,15 @@ useEffect(() => {
     return (
         <section className="pagina-combos">
 
+            <div className="combos-encabezado">
+
             <h2>Nuestros combos especiales</h2>
 
             <p>
                 Encuentra el detalle perfecto para sorprender
                 y compartir momentos especiales.
             </p>
+            </div>
 
             <div className="combos-grid">
 

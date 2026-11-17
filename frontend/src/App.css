@@ -7,14 +7,53 @@
   align-items: center;
   text-align: center;
 
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url('/imagenes/imagen%20principal.png');
-
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  position: relative;
+  overflow: hidden;
+
+  width: 55%;
+  margin: 0 auto;
 }
+
+.carrusel-fondo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    animation: aparecer-imagen 1s ease-in-out;
+    z-index: 0;
+}
+
+@keyframes aparecer-imagen {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#inicio::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1;
+}
+
+#inicio h2,
+#inicio p,
+.carrusel-indicadores {
+    position: relative;
+    z-index: 2;
+}
+
 
 #inicio h2 {
   color: #ffffff;
@@ -501,6 +540,24 @@
     text-align: center;
 }
 
+.productos-encabezado {
+    max-width: 950px;
+    margin: 0 auto 40px;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.94);
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(89, 52, 119, 0.12);
+}
+
+.combos-encabezado {
+    max-width: 950px;
+    margin: 0 auto 40px;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.94);
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(89, 52, 119, 0.12);
+}
+
 .pagina-productos h2 {
     color: #593477;
     font-size: 36px;
@@ -557,9 +614,6 @@
     line-height: 1.6;
     padding: 0 18px;
 }
-
-
-
 
 .boton-producto {
     background-color: #593477;
@@ -669,32 +723,77 @@
 }
 
 header {
-    background-color: #F8F3EA;
-    padding: 18px 6%;
+    background-image: url('/imagenes/otrapruebafondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 25px 6%;
     border-bottom: 2px solid #E8DCEB;
 }
 
 header nav {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    gap: 18px;
+    width: 100%;
 }
 
-header nav h1 {
-    color: #593477;
-    font-size: 30px;
-    margin: 0;
+.marca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-marca img {
+    width: 220px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.decoracion-encabezado {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.decoracion-encabezado img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.eslogan {
+    color: #A881E9;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: 1.2px;
+    margin: -10px 0 0;
+    text-align: center;
 }
 
 header nav ul {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 28px;
+    width: 100%;
     list-style: none;
-    padding: 0;
+    padding: 0 20px;
     margin: 0;
+    gap: 15px;
+}
+
+header nav ul li {
+    flex: 0 1 auto;
+    text-align: center;
 }
 
 header nav ul li a {
@@ -715,10 +814,11 @@ header nav ul li a:hover {
     }
 
     header nav ul {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 15px;
+}
 }
 
 
@@ -726,7 +826,7 @@ header nav ul li a:hover {
 .creaciones-inicio {
     padding: 65px 6%;
     text-align: center;
-    background-color: #F8F3EA;
+    background-color: transparent;
 }
 
 .creaciones-inicio h2 {
@@ -837,7 +937,11 @@ header nav ul li a:hover {
 .nosotros-historia {
     max-width: 950px;
     margin: 0 auto 55px;
+    padding: 40px;
     text-align: center;
+    background-color: rgba(255, 255, 255, 0.94);
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(89, 52, 119, 0.12);
 }
 
 .nosotros-historia h1 {
@@ -1048,4 +1152,23 @@ header nav ul li a:hover {
     color: #593477;
     font-size: 23px;
     margin: 0;
+}
+
+.fondo-inicio {
+    background-color: #F8F3EA;
+    background-image: url('/imagenes/imagendepruebapatron.png');
+    background-repeat: repeat;
+    background-size: 250px;
+    background-position: center;
+}
+
+.pagina-nosotros,
+.pagina-combos,
+.pagina-productos,
+.admin-panel {
+    background-color: #F8F3EA;
+    background-image: url('/imagenes/imagendepruebaflor.png');
+    background-repeat: repeat;
+    background-size: 250px;
+    background-position: center;
 }

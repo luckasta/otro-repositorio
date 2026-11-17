@@ -195,6 +195,12 @@
     color: #287447;
 }
 
+/* Cancelado */
+.estado-opcion.cancelado {
+    background: #f5e1dc;
+    color: #a33d32;
+}
+
 /* Estado seleccionado */
 .estado-opcion.seleccionado {
     opacity: 1;
@@ -211,4 +217,32 @@
 
 .estado-opcion:active {
     transform: scale(0.96);
+}
+
+.pedido-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 25px;
+    padding-top: 18px;
+    border-top: 1px solid #E8DCEB;
+    flex-wrap: wrap;
+}
+
+.pedido-eliminar {
+    background-color: #f5e1dc;
+    color: #a33d32;
+    border: 1px solid #e8c4bc;
+    padding: 9px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pedido-eliminar:hover {
+    background-color: #a33d32;
+    color: white;
+    transform: translateY(-2px);
 }

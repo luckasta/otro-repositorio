@@ -4,17 +4,53 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function Inicio() {
+    const imagenes = [
+    '/imagenes/imagen%20principal.png',
+    '/imagenes/imagenportada2.jpeg',
+    '/imagenes/imagenportada3.jpeg'
+];
+    const [imagenActual, setImagenActual] = useState(0);
+
+    useEffect(() => {
+    const intervalo = setInterval(() => {
+        setImagenActual((actual) => (actual + 1) % imagenes.length);
+    }, 5000);
+
+    return () => clearInterval(intervalo);
+}, []);
+    
+
+
     return (
         <>
-            <section className="pagina-inicio" id="inicio">
-                <h2>La creatividad también se puede saborear</h2>
+        <div className="fondo-inicio">
+        
+           <section
+    className="pagina-inicio"id="inicio"
+>
+    <img
+        key={imagenActual}
+        className="carrusel-fondo"
+        src={imagenes[imagenActual]}
+        alt=""
+    />
 
-                <p>
-                    Creamos momentos especiales con postres únicos,
-                    diseños originales y mucho sabor.
-                </p>
-                
-            </section>
+    <h2>La creatividad también se puede saborear</h2>
+
+    <p>
+        Creamos momentos especiales con postres únicos,
+        diseños originales y mucho sabor.
+    </p>
+
+    <div className="carrusel-indicadores">
+        {imagenes.map((imagen, index) => (
+            <span
+                key={index}
+                className={imagenActual === index ? 'indicador activo' : 'indicador'}
+            ></span>
+        ))}
+    </div>
+</section>
 
             <section className="creaciones-inicio">
                 <h2>Algunas de nuestras creaciones</h2>
@@ -48,6 +84,8 @@ function Inicio() {
 </div>
 
             </section>
+
+        </div>    
         </>
     );
 }

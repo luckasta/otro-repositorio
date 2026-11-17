@@ -2,12 +2,15 @@
 import { Link } from 'react-router-dom';
 function Productos() {
     return (
-        <section id="Productos">
+        <section id="Productos" className="pagina-productos">
+            
+            <div className="productos-encabezado">
             <h2>Nuestras creaciones</h2>
 
             <p>
                 Descubre un mundo de sabores, colores y creatividad.
             </p>
+            </div>
 
             <div className="catalogo-contenedor">
 

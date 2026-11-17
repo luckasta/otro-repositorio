@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 function Contacto() {
     const location = useLocation();
@@ -6,6 +7,8 @@ function Contacto() {
     const personalizar = location.state?.personalizar || false;
     const productoSeleccionado = location.state?.producto || '';
     console.log('Producto seleccionado:', productoSeleccionado);
+    const [horaSeleccionada, setHoraSeleccionada] = useState('');
+    const [minutosSeleccionados, setMinutosSeleccionados] = useState('');
 
     const enviarWhatsApp = async (event) => {
         event.preventDefault();
@@ -18,6 +21,10 @@ function Contacto() {
         const producto = datos.get('producto');
         console.log('Producto enviado:', producto);
         const mensaje = datos.get('mensaje');
+        const fechaEntrega = datos.get('fechaEntrega');
+        const hora = datos.get('hora');
+        const minutos = datos.get('minutos');
+        const horaEntrega = `${hora}:${minutos}`;
         const tematica = datos.get('tematica') || '';
         const colores = datos.get('colores') || '';
         const sabor = datos.get('sabor') || '';
@@ -34,6 +41,8 @@ function Contacto() {
             correo,
             producto,
             mensaje,
+            fechaEntrega,
+            horaEntrega,
             tematica,
             colores,
             sabor,
@@ -108,6 +117,8 @@ const texto = `¡Hola! Quiero realizar un pedido en Dulce Tentación.
 Nombre: ${nombre}
 Correo: ${correo}
 Producto: ${producto}
+Fecha de entrega: ${fechaEntrega}
+Hora de entrega: ${horaEntrega}
 Detalles: ${mensaje}
 ${personalizacion}`;
           const url = `https://wa.me/573332536448?text=${encodeURIComponent(texto)}`;
@@ -455,6 +466,64 @@ ${personalizacion}`;
     </div>
 )}
 
+
+                
+                <div className="campo">
+                    <label htmlFor="fechaEntrega">¿Qué día necesitas tu pedido?</label>
+                    <input
+                        type="date"
+                        id="fechaEntrega"
+                        name="fechaEntrega"
+                        required
+                        min={new Date().toLocaleDateString('en-CA')}
+                    />
+                </div>
+<div className="campo">
+    <label>¿A qué hora necesitas tu pedido?</label>
+
+    <div className="selector-hora">
+        <select
+            name="hora"
+            value={horaSeleccionada}
+            onChange={(e) => setHoraSeleccionada(e.target.value)}
+            required
+        >
+            <option value="">Hora</option>
+
+            {Array.from({ length: 24 }, (_, i) => {
+                const valor = String(i).padStart(2, '0');
+
+                return (
+                    <option key={valor} value={valor}>
+                        {valor}
+                    </option>
+                );
+            })}
+        </select>
+
+        <span>:</span>
+
+        <select
+            name="minutos"
+            value={minutosSeleccionados}
+            onChange={(e) => setMinutosSeleccionados(e.target.value)}
+            required
+        >
+            <option value="">Minutos</option>
+
+            {Array.from({ length: 12 }, (_, i) => {
+                const valor = String(i * 5).padStart(2, '0');
+
+                return (
+                    <option key={valor} value={valor}>
+                        {valor}
+                    </option>
+                );
+            })}
+        </select>
+    </div>
+</div>
+                
                 <div className="campo">
                     <label htmlFor="mensaje">Cuéntanos tu idea</label>
                     <textarea id="mensaje" name="mensaje" rows="5" placeholder="Describe tu pedido o idea..." required></textarea>

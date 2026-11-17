@@ -107,6 +107,39 @@ app.get('/api/admin/pedidos', verificarToken, async (req, res) => {
     }
 });
 
+app.delete('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
+    try {
+        const { ObjectId } = require('mongodb');
+
+        if (!ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                mensaje: 'Identificador de pedido no válido'
+            });
+        }
+
+        const resultado = await db.collection('pedidos').deleteOne({
+            _id: new ObjectId(req.params.id)
+        });
+
+        if (resultado.deletedCount === 0) {
+            return res.status(404).json({
+                mensaje: 'No se encontró el pedido'
+            });
+        }
+
+        res.json({
+            mensaje: 'Pedido eliminado correctamente'
+        });
+
+    } catch (error) {
+        console.error('Error al eliminar el pedido:', error);
+
+        res.status(500).json({
+            mensaje: 'No se pudo eliminar el pedido'
+        });
+    }
+});
+
 app.get('/api/combos', async (req, res) => {
     try {
         const combos = await db.collection('combos')
@@ -274,7 +307,8 @@ app.patch('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
         const estadosPermitidos = [
             'Pendiente',
             'En preparación',
-            'Entregado'
+            'Entregado',
+            'Cancelado'
         ];
 
         if (!estadosPermitidos.includes(estado)) {
