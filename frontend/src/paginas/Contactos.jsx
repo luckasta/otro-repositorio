@@ -532,17 +532,17 @@ ${personalizacion}`;
                 <button type="submit">Enviar mensaje</button>
             </form>
                         <div className="contacto-redes">
-                <h3>También puedes encontrarnos en</h3>
+                <h3>También puedes hablarnos por:</h3>
 
                 <div className="contacto-redes-contenido">
 
-                    <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
-                        <h4>Instagram</h4>
-                        <p>Síguenos y descubre nuestras creaciones.</p>
-                    </a>
-
-                    <a href="mailto:">
+                    <a
+                        href="https://mail.google.com/mail/?view=cm&fs=1&to=dulcetentacionparatodos@gmail.com"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
                         <h4>Correo electrónico</h4>
+                        <p>dulcetentacionparatodos@gmail.com</p>
                         <p>Escríbenos para resolver tus dudas.</p>
                     </a>
 

@@ -53,7 +53,7 @@ function Inicio() {
 </section>
 
             <section className="creaciones-inicio">
-                <h2>Algunas de nuestras creaciones</h2>
+                <h2>Explorar nuestras creaciones</h2>
 
                 <p>
                     Descubre todo lo que podemos crear para hacer

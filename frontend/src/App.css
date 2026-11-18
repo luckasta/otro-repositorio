@@ -1172,3 +1172,219 @@ header nav ul li a:hover {
     background-size: 250px;
     background-position: center;
 }
+
+.aviso-precio {
+    font-size: 14px;
+    color: #6B5548;
+    font-style: italic;
+    margin: 12px auto 20px;
+    max-width: 500px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+
+/* ASESORA VIRTUAL */
+
+.asesora-ia {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1000;
+}
+
+.boton-asesora {
+    background-color: #68418C;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 30px;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.boton-asesora:hover {
+    background-color: #50316F;
+}
+
+.ventana-asesora {
+    width: 340px;
+    height: 430px;
+    background-color: #F8F3EA;
+    border: 2px solid #68418C;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.encabezado-asesora {
+    background-color: #68418C;
+    color: #FFFFFF;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.encabezado-asesora h3 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.encabezado-asesora button {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.contenido-asesora {
+    padding: 16px;
+    flex: 1;
+    overflow-y: auto;
+    color: #4A352B;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .asesora-ia {
+        right: 12px;
+        bottom: 12px;
+    }
+
+    .ventana-asesora {
+        width: min(340px, calc(100vw - 24px));
+        height: 400px;
+    }
+}
+
+
+/* MENSAJES DE LA ASESORA VIRTUAL */
+
+.mensaje-asesora,
+.mensaje-chat {
+    width: fit-content;
+    max-width: 85%;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.mensaje-asesora p,
+.mensaje-chat p {
+    margin: 0;
+}
+
+.mensaje-asesora,
+.mensaje-chat.assistant {
+    background-color: #E9DFF2;
+    color: #4A352B;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.mensaje-chat.user {
+    background-color: #68418C;
+    color: #FFFFFF;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+/* FORMULARIO DEL CHAT */
+
+.formulario-asesora {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background-color: #FFFFFF;
+    border-top: 1px solid #E5DCEB;
+}
+
+.formulario-asesora input {
+    flex: 1;
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid #D5C6DF;
+    border-radius: 20px;
+    outline: none;
+    font-size: 14px;
+    color: #4A352B;
+}
+
+.formulario-asesora input:focus {
+    border-color: #68418C;
+}
+
+.formulario-asesora button {
+    background-color: #68418C;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.formulario-asesora button:hover {
+    background-color: #50316F;
+}
+
+.formulario-asesora button:disabled {
+    background-color: #B9A9C5;
+    cursor: not-allowed;
+}
+
+.acciones-asesora {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.acciones-asesora button {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 21px;
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.acciones-asesora button:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+/* BOTÓN PARA CONTINUAR CON EL PEDIDO */
+
+.continuar-pedido {
+    padding: 10px 12px;
+    background-color: #F8F3EA;
+    border-top: 1px solid #E5DCEB;
+}
+
+.continuar-pedido button {
+    width: 100%;
+    padding: 11px;
+    background-color: #80613F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.continuar-pedido button:hover {
+    background-color: #60472F;
+}

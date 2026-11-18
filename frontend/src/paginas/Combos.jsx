@@ -45,7 +45,10 @@ useEffect(() => {
                     <img src="/imagenes/combo dulce.jpeg" alt="Combo Dulce" />
                     <h3>Combo Dulce</h3>
                     <p>Cupcakes y galletas decoradas para disfrutar de algo delicioso.</p>
-                    <span>Precio: $ Por definir</span>
+                    <span>Precio: $90.000 </span>
+                    <p className="aviso-precio">
+    El precio puede aumentar o disminuir dependiendo del diseño y/o la cantidad de unidades que se requieran.
+</p>
                     <Link
                         to="/contactos"
                         state={{ combo: 'Combo Dulce' }}
@@ -59,7 +62,10 @@ useEffect(() => {
                     <img src="/imagenes/combo celebracion.jpeg" alt="Combo Celebración" />
                     <h3>Combo Celebración</h3>
                     <p>Una mini torta acompañada de deliciosos cupcakes.</p>
-                    <span>Precio: $ Por definir</span>
+                    <span>Precio: $130.000</span>
+                    <p className="aviso-precio">
+    El precio puede aumentar o disminuir dependiendo del diseño y/o la cantidad de unidades que se requieran.
+</p>
                     <Link
                         to="/contactos"
                         state={{ combo: 'Combo Celebración' }}
@@ -73,7 +79,10 @@ useEffect(() => {
                     <img src="/imagenes/combo galletas.jpeg" alt="Combo Galletitas" />
                     <h3>Combo Galletitas</h3>
                     <p>Una selección de galletas decoradas con diseños especiales.</p>
-                    <span>Precio: $ Por definir</span>
+                    <span>Precio: $50.000</span>
+                    <p className="aviso-precio">
+    El precio puede aumentar o disminuir dependiendo del diseño y/o la cantidad de unidades que se requieran.
+</p>
                     <Link
                         to="/contactos"
                         state={{ combo: 'Combo Galletitas' }}
@@ -87,7 +96,10 @@ useEffect(() => {
                     <img src="/imagenes/combo especial.jpeg" alt="Combo Especial" />
                     <h3>Combo Especial</h3>
                     <p>Una variedad de pequeños postres para compartir.</p>
-                    <span>Precio: $ Por definir</span>
+                    <span>Precio: $75.000</span>
+                    <p className="aviso-precio">
+    El precio puede aumentar o disminuir dependiendo del diseño y/o la cantidad de unidades que se requieran.
+</p>
                     <Link
                         to="/contactos"
                         state={{ combo: 'Combo Especial' }}
@@ -96,7 +108,14 @@ useEffect(() => {
                         Elegir este combo
                     </Link>
                 </article>
-                {combos.map((combo) => (
+                {combos
+    .filter((combo) => ![
+        'Combo Dulce',
+        'Combo Celebración',
+        'Combo Galletitas',
+        'Combo Especial'
+    ].includes(combo.nombre))
+    .map((combo) => (
     <article className="combo-tarjeta" key={combo._id}>
 
         {combo.imagen && (

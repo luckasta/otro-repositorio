@@ -8,6 +8,14 @@ function Admin() {
     const [error, setError] = useState('');
     const [token, setToken] = useState(localStorage.getItem('tokenAdmin'));
     const [pedidos, setPedidos] = useState([]);
+    const [precios, setPrecios] = useState({
+    tortas: 0,
+    cupcakes: 0,
+    postres: 0,
+    galletas: 0
+    });
+    const [cargandoPrecios, setCargandoPrecios] = useState(false);
+    const [guardandoPrecios, setGuardandoPrecios] = useState(false);
     const [filtro, setFiltro] = useState('Todos');
     const [seccionActiva, setSeccionActiva] = useState('pedidos');
     const [combos, setCombos] = useState([]);
@@ -208,6 +216,72 @@ const eliminarCombo = async (id) => {
         alert(error.message);
     }
 };
+
+const cargarPrecios = async () => {
+    setCargandoPrecios(true);
+    setError('');
+
+    try {
+        const respuesta = await fetch('http://localhost:3000/api/precios');
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(datos.mensaje);
+        }
+
+        setPrecios({
+            tortas: datos.tortas ?? 0,
+            cupcakes: datos.cupcakes ?? 0,
+            postres: datos.postres ?? 0,
+            galletas: datos.galletas ?? 0
+        });
+
+    } catch (error) {
+        setError(error.message);
+    } finally {
+        setCargandoPrecios(false);
+    }
+};
+
+const guardarPrecios = async () => {
+    setGuardandoPrecios(true);
+    setError('');
+
+    try {
+        const tokenAdmin = localStorage.getItem('tokenAdmin');
+
+        const respuesta = await fetch('http://localhost:3000/api/admin/precios', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${tokenAdmin}`
+            },
+            body: JSON.stringify({
+                tortas: Number(precios.tortas),
+                cupcakes: Number(precios.cupcakes),
+                postres: Number(precios.postres),
+                galletas: Number(precios.galletas)
+            })
+        });
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(datos.mensaje);
+        }
+
+        setPrecios(datos.precios);
+        setError('');
+        alert('¡Precios actualizados correctamente!');
+
+    } catch (error) {
+        setError(error.message);
+    } finally {
+        setGuardandoPrecios(false);
+    }
+};
+
     const actualizarEstado = async (id, nuevoEstado) => {
     try {
         const respuesta = await fetch(
@@ -352,6 +426,19 @@ const eliminarPedido = async (id) => {
         <span className="admin-nav-icono">🧁</span>
         <span>Gestión de combos</span>
     </button>
+
+    <button
+        className={`admin-nav-boton ${seccionActiva === 'precios' ? 'admin-seccion-activa' : ''}`}
+        onClick={() => {
+            setSeccionActiva('precios');
+            cargarPrecios();
+        }}
+    >
+        <span className="admin-nav-icono">💰</span>
+        <span>Precios de productos</span>
+    </button>
+
+
 
 </div>
                 {seccionActiva === 'pedidos' && (
@@ -530,29 +617,28 @@ const eliminarPedido = async (id) => {
 
                             </div>
                             
-                            <p>
-                                <strong>Fecha:</strong>{' '}
-                                {pedido.fecha
-                                ? new Date(pedido.fecha).toLocaleString('es-CO')
-                                : 'Pedido anterior'}
-                            </p>
+                            
+<p>
+    <strong>Fecha:</strong>{' '}
+    {pedido.fecha
+        ? new Date(pedido.fecha).toLocaleString('es-CO')
+        : 'Pedido anterior'}
+</p>
 
-                            <p>
+<p>
     <strong>Fecha de entrega:</strong>{' '}
     {pedido.fechaEntrega
         ? new Date(`${pedido.fechaEntrega}T00:00:00`).toLocaleDateString('es-CO')
         : 'No especificada'}
 </p>
 
-<p><p>
+<p>
     <strong>Hora de entrega:</strong>{' '}
     {pedido.horaEntrega
         ? pedido.horaEntrega.slice(0, 5)
         : 'No especificada'}
 </p>
-    <strong>Hora de entrega:</strong>{' '}
-    {pedido.horaEntrega || 'No especificada'}
-</p>
+
 
                              <div className="pedido-acciones">
 
@@ -578,6 +664,113 @@ const eliminarPedido = async (id) => {
                     ))}
                 </div>
                     </>
+)}
+
+{seccionActiva === 'precios' && (
+    <section className="admin-precios">
+
+        <div className="admin-precios-titulo">
+            <h2>Precios de productos</h2>
+            <p>
+                Establece el precio mínimo desde el que se ofrecen
+                nuestros productos personalizados.
+            </p>
+        </div>
+
+        {cargandoPrecios ? (
+            <p>Cargando precios...</p>
+        ) : (
+            <form
+                className="admin-precios-formulario"
+                onSubmit={(event) => {
+                    event.preventDefault();
+                    guardarPrecios();
+                }}
+            >
+
+                <div className="admin-precio-campo">
+                    <label htmlFor="precio-tortas">Tortas (COP)</label>
+                    <input
+                        id="precio-tortas"
+                        type="text"
+                        input="numeric"
+                        value={precios.tortas}
+                        onChange={(event) =>
+                            setPrecios({
+                                ...precios,
+                                tortas: event.target.value
+                            })
+                        }
+                        required
+                    />
+                </div>
+
+                <div className="admin-precio-campo">
+                    <label htmlFor="precio-cupcakes">Cupcakes (COP)</label>
+                    <input
+                        id="precio-cupcakes"
+                        type="text"
+                        input="numeric"
+                        value={precios.cupcakes}
+                        onChange={(event) =>
+                            setPrecios({
+                                ...precios,
+                                cupcakes: event.target.value
+                            })
+                        }
+                        required
+                    />
+                </div>
+
+                <div className="admin-precio-campo">
+                    <label htmlFor="precio-postres">Postres (COP)</label>
+                    <input
+                        id="precio-postres"
+                        type="text"
+                        input="numeric"
+                        value={precios.postres}
+                        onChange={(event) =>
+                            setPrecios({
+                                ...precios,
+                                postres: event.target.value
+                            })
+                        }
+                        required
+                    />
+                </div>
+
+                <div className="admin-precio-campo">
+                    <label htmlFor="precio-galletas">Galletas (COP)</label>
+                    <input
+                        id="precio-galletas"
+                        type="text"
+                        input="numeric"
+                        value={precios.galletas}
+                        onChange={(event) =>
+                            setPrecios({
+                                ...precios,
+                                galletas: event.target.value
+                            })
+                        }
+                        required
+                    />
+                </div>
+
+                {error && (
+                    <p className="admin-error">{error}</p>
+                )}
+
+                <button
+                    type="submit"
+                    disabled={guardandoPrecios}
+                >
+                    {guardandoPrecios ? 'Guardando...' : 'Guardar precios'}
+                </button>
+
+            </form>
+        )}
+
+    </section>
 )}
 
 {seccionActiva === 'combos' && (
@@ -628,7 +821,7 @@ const eliminarPedido = async (id) => {
     <div className="campo">
         <label htmlFor="precioCombo">Precio</label>
         <input
-            type="number"
+            type="text"
             id="precioCombo"
             min="1"
             value={nuevoCombo.precio}

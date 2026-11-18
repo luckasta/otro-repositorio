@@ -1,6 +1,7 @@
 
 import './App.css';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import AsesoraIA from './componentes/AsesoraIA';
 
 import Admin from './componentes/admin';
 import Inicio from './paginas/Inicio';
@@ -14,6 +15,7 @@ import Nosotros from './paginas/Nosotros';
 function App() {
     return (
         <BrowserRouter>
+           <AsesoraIA />
 
            <header>
                <nav>

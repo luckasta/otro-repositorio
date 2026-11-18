@@ -246,3 +246,85 @@
     color: white;
     transform: translateY(-2px);
 }
+
+/* SECCIÓN DE PRECIOS */
+
+.admin-precios {
+    background-color: #F8F3EA;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 25px;
+    border: 1px solid #E8DCEB;
+}
+
+.admin-precios-titulo {
+    margin-bottom: 25px;
+}
+
+.admin-precios-titulo h2 {
+    color: #593B70;
+    margin-bottom: 10px;
+}
+
+.admin-precios-titulo p {
+    color: #6B5548;
+}
+
+.admin-precios-formulario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 750px;
+}
+
+.admin-precio-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-precio-campo label {
+    color: #593B70;
+    font-weight: bold;
+}
+
+.admin-precio-campo input {
+    padding: 12px;
+    border: 1px solid #CBB9D5;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #49352F;
+    background-color: #FFFFFF;
+}
+
+.admin-precios-formulario button {
+    grid-column: 1 / -1;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background-color: #593B70;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.admin-precios-formulario button:hover {
+    background-color: #75518C;
+}
+
+.admin-precios-formulario button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .admin-precios {
+        padding: 20px;
+    }
+
+    .admin-precios-formulario {
+        grid-template-columns: 1fr;
+    }
+}

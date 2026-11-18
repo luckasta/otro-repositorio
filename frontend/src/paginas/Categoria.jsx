@@ -1,9 +1,47 @@
 
 import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function Categoria() {
     const { tipo } = useParams();
     console.log('Categoría seleccionada:', tipo);
+
+    const [precios, setPrecios] = useState({
+    tortas: 0,
+    cupcakes: 0,
+    postres: 0,
+    galletas: 0
+    });
+
+    const [cargandoPrecios, setCargandoPrecios] = useState(true);
+
+    useEffect(() => {
+    const cargarPrecios = async () => {
+        try {
+            const respuesta = await fetch('http://localhost:3000/api/precios');
+
+            const datos = await respuesta.json();
+
+            if (!respuesta.ok) {
+                throw new Error('No se pudieron cargar los precios');
+            }
+
+            setPrecios({
+                tortas: datos.tortas ?? 0,
+                cupcakes: datos.cupcakes ?? 0,
+                postres: datos.postres ?? 0,
+                galletas: datos.galletas ?? 0
+            });
+
+        } catch (error) {
+            console.error('Error al cargar los precios:', error);
+        } finally {
+            setCargandoPrecios(false);
+        }
+    };
+
+    cargarPrecios();
+}, []);
 
     const categorias = {
         tortas: {
@@ -91,8 +129,19 @@ function Categoria() {
                     {tipo === 'postres' && 'Personaliza tus postres según el sabor, la presentación y la cantidad.'}
                 </p>
 
-                <h2>Desde $...</h2>
-
+                <h2>
+    {cargandoPrecios
+        ? 'Cargando precio...'
+        : `Desde ${Number(precios[tipo]).toLocaleString('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            maximumFractionDigits: 0
+        })}`
+    }
+</h2>
+<p className="aviso-precio">
+    El precio puede aumentar o disminuir dependiendo del diseño y/o la cantidad de unidades que se requieran.
+</p>
                 <Link
                     to="/contactos"
                     state={{
