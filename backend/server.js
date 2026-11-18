@@ -16,7 +16,7 @@ const solicitudesIA = new Map();
 const LIMITE_SOLICITUDES = 10;
 const VENTANA_TIEMPO = 10 * 60 * 1000;
 app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173'
 }));
 
 const uri = process.env.MONGODB_URI;
@@ -624,7 +624,7 @@ app.patch('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
     }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.send('¡Bienvenido al servidor de Dulce Tentación!');
@@ -698,6 +698,6 @@ conectarMongoDB().then(async () => {
     await inicializarCombos();
 
     app.listen(PORT, () => {
-        console.log(`Servidor funcionando en http://localhost:${PORT}`);
-    });
+    console.log(`Servidor funcionando en el puerto ${PORT}`);
+});
 });

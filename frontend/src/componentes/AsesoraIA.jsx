@@ -1,6 +1,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../config';
 
 function AsesoraIA() {
     const navigate = useNavigate();
@@ -45,7 +46,7 @@ const enviarMensaje = async (event) => {
     const solicitud = ++solicitudActual.current;
 
     try {
-        const respuesta = await fetch('http://localhost:3000/api/ia/chat', {
+        const respuesta = await fetch(`${API_URL}/api/ia/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

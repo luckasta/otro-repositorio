@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import API_URL from '../config';
 
 function Contacto() {
     const location = useLocation();
@@ -56,7 +57,7 @@ function Contacto() {
         };
 
         try {
-            const respuesta = await fetch('http://localhost:3000/api/pedidos', {
+            const respuesta = await fetch(`${API_URL}/api/pedidos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

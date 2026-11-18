@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import './admin.css';
+import API_URL from '../config';
 
 function Admin() {
     const [email, setEmail] = useState('');
@@ -42,7 +43,7 @@ function Admin() {
 
         try {
             const respuesta = await fetch(
-                'http://localhost:3000/api/admin/pedidos',
+    `${API_URL}/api/admin/pedidos`,
                 {
                     headers: {
                         Authorization: `Bearer ${tokenAdmin}`
@@ -71,7 +72,7 @@ const cargarCombos = async (tokenAdmin) => {
     setError('');
 
     try {
-        const respuesta = await fetch('http://localhost:3000/api/admin/combos', {
+       const respuesta = await fetch(`${API_URL}/api/admin/combos`, {
             headers: {
                 Authorization: `Bearer ${tokenAdmin}`
             }
@@ -96,8 +97,7 @@ const guardarCombo = async (event) => {
     event.preventDefault();
 
     try {
-        const respuesta = await fetch('http://localhost:3000/api/admin/combos', {
-            method: 'POST',
+        const respuesta = await fetch(`${API_URL}/api/admin/combos`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
@@ -134,7 +134,7 @@ const actualizarCombo = async (event) => {
 
     try {
         const respuesta = await fetch(
-            `http://localhost:3000/api/admin/combos/${comboEditando._id}`,
+            `${API_URL}/api/admin/combos/${comboEditando._id}`,
             {
                 method: 'PATCH',
                 headers: {
@@ -192,7 +192,7 @@ const eliminarCombo = async (id) => {
 
     try {
         const respuesta = await fetch(
-            `http://localhost:3000/api/admin/combos/${id}`,
+           `${API_URL}/api/admin/combos/${id}`,
             {
                 method: 'DELETE',
                 headers: {
@@ -222,7 +222,7 @@ const cargarPrecios = async () => {
     setError('');
 
     try {
-        const respuesta = await fetch('http://localhost:3000/api/precios');
+       const respuesta = await fetch(`${API_URL}/api/precios`);
 
         const datos = await respuesta.json();
 
@@ -251,7 +251,7 @@ const guardarPrecios = async () => {
     try {
         const tokenAdmin = localStorage.getItem('tokenAdmin');
 
-        const respuesta = await fetch('http://localhost:3000/api/admin/precios', {
+        const respuesta = await fetch(`${API_URL}/api/admin/precios`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -285,7 +285,7 @@ const guardarPrecios = async () => {
     const actualizarEstado = async (id, nuevoEstado) => {
     try {
         const respuesta = await fetch(
-            `http://localhost:3000/api/admin/pedidos/${id}`,
+            `${API_URL}/api/admin/pedidos/${id}`,
             {
                 method: 'PATCH',
                 headers: {
@@ -320,7 +320,7 @@ const eliminarPedido = async (id) => {
 
     try {
         const respuesta = await fetch(
-            `http://localhost:3000/api/admin/pedidos/${id}`,
+            `${API_URL}/api/admin/pedidos/${id}`,
             {
                 method: 'DELETE',
                 headers: {
@@ -351,7 +351,7 @@ const eliminarPedido = async (id) => {
 
         try {
             const respuesta = await fetch(
-                'http://localhost:3000/api/admin/login',
+                `${API_URL}/api/admin/login`,
                 {
                     method: 'POST',
                     headers: {

@@ -1,6 +1,7 @@
 
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import API_URL from '../config';
 
 function Categoria() {
     const { tipo } = useParams();
@@ -18,7 +19,7 @@ function Categoria() {
     useEffect(() => {
     const cargarPrecios = async () => {
         try {
-            const respuesta = await fetch('http://localhost:3000/api/precios');
+            const respuesta = await fetch(`${API_URL}/api/precios`);
 
             const datos = await respuesta.json();
 

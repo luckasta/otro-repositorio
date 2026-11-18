@@ -1,6 +1,8 @@
 
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import API_URL from '../config';
+
 function Combos() {
     const [combos, setCombos] = useState([]);
 const [cargando, setCargando] = useState(true);
@@ -8,7 +10,7 @@ const [cargando, setCargando] = useState(true);
 useEffect(() => {
     const cargarCombos = async () => {
         try {
-            const respuesta = await fetch('http://localhost:3000/api/combos');
+           const respuesta = await fetch(`${API_URL}/api/combos`);
             const datos = await respuesta.json();
 
             if (!respuesta.ok) {
