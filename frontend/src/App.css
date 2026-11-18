@@ -1088,19 +1088,22 @@ header nav ul li a:hover {
 
 .combo-tarjeta button,
 .combo-tarjeta .boton-elegir-combo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+    width: 100%;
+    box-sizing: border-box;
+
     background-color: #593477;
     color: white;
     border: none;
-    padding: 12px 22px;
+    padding: 12px 16px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease;
-}
-
-.combo-tarjeta button:hover,
-.combo-tarjeta .boton-elegir-combo:hover {
-    background-color: #8A5BAA;
 }
 
 .combo-personalizado {
@@ -1387,4 +1390,14 @@ header nav ul li a:hover {
 
 .continuar-pedido button:hover {
     background-color: #60472F;
+}
+
+.footer-aviso {
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #e0d5e9;
 }

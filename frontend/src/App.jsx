@@ -88,6 +88,18 @@ function App() {
 
                 </div>
 
+                <div className="footer-aviso">
+                    <p>
+                        <strong>Aviso sobre el uso de imágenes:</strong>
+                        Las imágenes presentadas en este sitio web se utilizan
+                        con fines ilustrativos y educativos, como parte de un
+                        proyecto académico. Su finalidad es servir como
+                        referencia visual de los productos y diseños de
+                        repostería. Las imágenes pertenecen a sus respectivos
+                        autores y titulares de derechos.
+                    </p>
+                </div>
+
                 <div className="footer-final">
                     <p>© 2026 Dulce Tentación. Todos los derechos reservados.</p>
                 </div>
