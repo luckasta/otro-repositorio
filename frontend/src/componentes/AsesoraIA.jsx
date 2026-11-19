@@ -1,10 +1,16 @@
-
+// Importar las herramientas de React para controlar estados,
+// referencias y efectos dentro del componente.
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API_URL from '../config';
 
+// Componente encargado de mostrar y gestionar el chat de la asesora virtual.
 function AsesoraIA() {
+
+    // Permitir la navegación hacia el formulario de contacto desde el chat.
     const navigate = useNavigate();
+    // Controlar la apertura del chat, los mensajes, el historial y el estado de carga.
+// Las referencias permiten desplazar los mensajes y controlar las solicitudes activas.
     const [abierto, setAbierto] = useState(false);
     const [mensaje, setMensaje] = useState('');
     const [historial, setHistorial] = useState([]);
@@ -12,6 +18,8 @@ function AsesoraIA() {
     const mensajesRef = useRef(null);
     const solicitudActual = useRef(0);
 
+// Desplazar automáticamente el área de conversación hasta el último mensaje
+// cada vez que cambia el historial o el estado de carga.
 useEffect(() => {
     if (mensajesRef.current) {
         mensajesRef.current.scrollTop =
@@ -19,12 +27,17 @@ useEffect(() => {
     }
 }, [historial, cargando]);
 
+// Reiniciar la conversación y limpiar los mensajes escritos.
+// También se invalida cualquier solicitud anterior que siga pendiente.
 const nuevaConversacion = () => {
     solicitudActual.current += 1;
     setHistorial([]);
     setMensaje('');
     setCargando(false);
 };
+
+// Enviar el mensaje del usuario al backend para obtener una respuesta de la IA.
+// Se actualiza el historial y se controlan los estados de carga y posibles errores.
 const enviarMensaje = async (event) => {
     event.preventDefault();
 
@@ -96,7 +109,8 @@ const enviarMensaje = async (event) => {
     }
 };
 
-
+// Construir la ventana de chat, mostrar los mensajes y ofrecer
+// opciones para iniciar una nueva conversación o continuar con un pedido.
     return (
         <div className="asesora-ia">
             <button
@@ -140,6 +154,7 @@ const enviarMensaje = async (event) => {
         </p>
     </div>
 
+{/* Recorrer el historial y mostrar los mensajes del usuario y de la asesora. */}
     {historial.map((elemento, indice) => (
         <div
             key={indice}
@@ -149,6 +164,7 @@ const enviarMensaje = async (event) => {
         </div>
     ))}
 
+{/* Mostrar un indicador mientras se espera la respuesta de la inteligencia artificial. */}
     {cargando && (
         <div className="mensaje-chat assistant">
             <p>Estoy preparando tu respuesta... 💜</p>
@@ -157,6 +173,7 @@ const enviarMensaje = async (event) => {
 
 </div>
 
+{/* Formulario para escribir y enviar mensajes a la asesora virtual. */}
 <form className="formulario-asesora" onSubmit={enviarMensaje}>
     <input
         type="text"
@@ -171,6 +188,8 @@ const enviarMensaje = async (event) => {
         Enviar
     </button>
 </form>
+
+{/* Permitir que el usuario continúe hacia el formulario de contacto para realizar su pedido. */}
 <div className="continuar-pedido">
     <button
         type="button"

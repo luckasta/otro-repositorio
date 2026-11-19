@@ -1,6 +1,7 @@
-
+// Cargar las variables de entorno del archivo .env
 require('dotenv').config();
 
+// Importar las librerías necesarias para el funcionamiento del servidor
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
@@ -9,23 +10,32 @@ const OpenAI = require('openai');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Crear la aplicación del servidor
 const app = express();
 
+// Almacenar temporalmente las solicitudes realizadas a la asesora virtual
 const solicitudesIA = new Map();
 
+// Definir el límite de mensajes permitidos y el tiempo de espera
 const LIMITE_SOLICITUDES = 10;
 const VENTANA_TIEMPO = 10 * 60 * 1000;
+
+// Permitir las solicitudes del frontend publicado o del entorno local
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:5173'
 }));
 
+// Obtener la dirección de conexión y establecer la conexión con MongoDB
 const uri = process.env.MONGODB_URI;
 console.log('¿Se encontró la conexión?', Boolean(uri));
 
 const client = new MongoClient(uri);
 
+// Seleccionar la base de datos del emprendimiento
 const db = client.db('dulce_tentacion');
 
+// Registrar los combos iniciales en la base de datos si todavía no existen.
+// Esto permite que la tienda tenga opciones disponibles desde su primera ejecución.
 async function inicializarCombos() {
     const combosIniciales = [
         {
@@ -74,12 +84,16 @@ async function inicializarCombos() {
     console.log('Combos iniciales verificados correctamente');
 }
 
+// Obtener la clave secreta utilizada para firmar y verificar los tokens de autenticación.
 const JWT_SECRET = process.env.JWT_SECRET;
 
+// Configurar el cliente de OpenAI utilizando la clave almacenada en las variables de entorno.
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
+// Middleware encargado de verificar la autenticación y los permisos
+// del administrador antes de permitir el acceso a las rutas protegidas.
 function verificarToken(req, res, next) {
     const autorizacion = req.headers.authorization;
 
@@ -110,6 +124,8 @@ function verificarToken(req, res, next) {
     }
 }
 
+// Establecer la conexión con MongoDB Atlas para permitir
+// que el servidor consulte y almacene información de la tienda.
 async function conectarMongoDB() {
     try {
         await client.connect();
@@ -123,6 +139,8 @@ async function conectarMongoDB() {
 
 app.use(express.json());
 
+// Registrar los pedidos enviados desde los formularios de la página.
+// Se asigna un estado inicial y la fecha de creación antes de guardarlos en MongoDB.
 app.post('/api/pedidos', async (req, res) => {
     try {
         const pedido = {
@@ -147,6 +165,8 @@ app.post('/api/pedidos', async (req, res) => {
     }
 });
 
+// Consultar todos los pedidos registrados.
+// Esta ruta está protegida y solo puede ser utilizada por el administrador.
 app.get('/api/admin/pedidos', verificarToken, async (req, res) => {
     try {
         const pedidos = await db.collection('pedidos')
@@ -165,6 +185,8 @@ app.get('/api/admin/pedidos', verificarToken, async (req, res) => {
     }
 });
 
+// Eliminar un pedido de la base de datos utilizando su identificador.
+// Se verifica que el ID sea válido y que el pedido exista antes de eliminarlo.
 app.delete('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
     try {
         const { ObjectId } = require('mongodb');
@@ -198,6 +220,7 @@ app.delete('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
     }
 });
 
+// Obtener los combos activos para mostrarlos en el catálogo público de la tienda.
 app.get('/api/combos', async (req, res) => {
     try {
         const combos = await db.collection('combos')
@@ -216,6 +239,7 @@ app.get('/api/combos', async (req, res) => {
     }
 });
 
+// Consultar todos los combos registrados para permitir su gestión desde el panel administrativo.
 app.get('/api/admin/combos', verificarToken, async (req, res) => {
     try {
         const combos = await db.collection('combos')
@@ -234,6 +258,7 @@ app.get('/api/admin/combos', verificarToken, async (req, res) => {
     }
 });
 
+// Registrar un nuevo combo en MongoDB después de validar sus datos.
 app.post('/api/admin/combos', verificarToken, async (req, res) => {
     try {
         const {
@@ -278,6 +303,8 @@ app.post('/api/admin/combos', verificarToken, async (req, res) => {
     }
 });
 
+// Actualizar la información de un combo existente mediante su identificador.
+// Solo se modifican los campos enviados en la solicitud.
 app.patch('/api/admin/combos/:id', verificarToken, async (req, res) => {
     try {
         const { ObjectId } = require('mongodb');
@@ -323,6 +350,7 @@ app.patch('/api/admin/combos/:id', verificarToken, async (req, res) => {
     }
 });
 
+// Eliminar un combo de MongoDB después de verificar que su identificador sea válido.
 app.delete('/api/admin/combos/:id', verificarToken, async (req, res) => {
     try {
         const { ObjectId } = require('mongodb');
@@ -357,7 +385,8 @@ app.delete('/api/admin/combos/:id', verificarToken, async (req, res) => {
     }
 });
 
-
+// Consultar los precios mínimos establecidos para cada categoría
+// y enviarlos al frontend para mostrarlos en la tienda.
 app.get('/api/precios', async (req, res) => {
     try {
         const precios = await db.collection('precios').findOne({
@@ -379,8 +408,9 @@ app.get('/api/precios', async (req, res) => {
     }
 });
 
-
-
+// Procesar los mensajes enviados a la asesora virtual mediante OpenAI.
+// Se consulta la información actualizada de la tienda para generar
+// recomendaciones basadas en los productos, combos y precios disponibles.
 app.post('/api/ia/chat', async (req, res) => {
     try {
         const { mensaje, historial = [] } = req.body;
@@ -395,6 +425,8 @@ app.post('/api/ia/chat', async (req, res) => {
                 mensaje: 'Envía un mensaje válido de máximo 1000 caracteres'
             });
         }
+        // Identificar la dirección IP del usuario para controlar
+// la cantidad de mensajes enviados durante un intervalo de tiempo.
         const ip = req.ip;
 const ahora = Date.now();
 
@@ -417,7 +449,7 @@ if (registro && ahora - registro.inicio < VENTANA_TIEMPO) {
     });
 }
 
-        
+        // Consultar simultáneamente los combos activos y los precios de las categorías.
         const [combos, precios] = await Promise.all([
             db.collection('combos')
                 .find({ activa: true })
@@ -538,6 +570,8 @@ if (registro && ahora - registro.inicio < VENTANA_TIEMPO) {
     }
 });
 
+// Actualizar los precios de las categorías desde el panel administrativo.
+// Se validan los valores antes de guardarlos en MongoDB.
 app.patch('/api/admin/precios', verificarToken, async (req, res) => {
     try {
         const { tortas, cupcakes, postres, galletas } = req.body;
@@ -576,6 +610,8 @@ app.patch('/api/admin/precios', verificarToken, async (req, res) => {
     }
 });
 
+// Actualizar el estado de un pedido desde el panel administrativo.
+// Solo se permiten los estados definidos y se verifica que el pedido exista.
 app.patch('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
     try {
         const { ObjectId } = require('mongodb');
@@ -626,16 +662,21 @@ app.patch('/api/admin/pedidos/:id', verificarToken, async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
+// Ruta principal para comprobar que el servidor está funcionando.
 app.get('/', (req, res) => {
     res.send('¡Bienvenido al servidor de Dulce Tentación!');
 });
 
+// Ruta de prueba para verificar la comunicación entre el frontend y el backend.
 app.get('/api/prueba', (req, res) => {
     res.json({
         mensaje: 'La conexión con el backend funciona'
     });
 });
 
+// Validar las credenciales del administrador y permitir el acceso al panel.
+// Se compara la contraseña ingresada con su versión cifrada almacenada
+// en MongoDB y se genera un token de autenticación si es correcta.
 app.post('/api/admin/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -694,6 +735,8 @@ app.post('/api/admin/login', async (req, res) => {
     }
 });
 
+// Conectar con MongoDB, verificar los combos iniciales
+// e iniciar el servidor cuando la conexión esté establecida.
 conectarMongoDB().then(async () => {
     await inicializarCombos();
 

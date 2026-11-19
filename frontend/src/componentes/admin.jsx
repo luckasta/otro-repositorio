@@ -1,10 +1,18 @@
-
+// Importar las herramientas de React, los estilos del panel administrativo
+// y la dirección del backend para realizar las solicitudes a la API.
 import { useState } from 'react';
 import './admin.css';
 import API_URL from '../config';
+
+// Obtener la ruta base del proyecto para construir correctamente
+// las rutas de las imágenes cuando el sitio está publicado.
 const BASE_URL = import.meta.env.BASE_URL;
 
+// Componente principal del panel administrativo.
+// Permite gestionar los pedidos, combos y precios de los productos.
 function Admin() {
+    // Estados para controlar las credenciales, la sesión administrativa,
+// los pedidos, los precios, los combos y la información de la interfaz.
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -30,6 +38,8 @@ function Admin() {
 });
     const [comboEditando, setComboEditando] = useState(null);
     const [cargando, setCargando] = useState(false);
+    // Filtrar los pedidos según el estado seleccionado en el panel.
+// Si se selecciona "Todos", se muestran todos los pedidos registrados.
     const pedidosFiltrados = pedidos.filter((pedido) => {
     if (filtro === 'Todos') {
         return true;
@@ -38,6 +48,8 @@ function Admin() {
     return (pedido.estado || 'Pendiente') === filtro;
 });
 
+// Consultar los pedidos registrados en la base de datos.
+// Se utiliza el token de administrador para autorizar la solicitud.
     const cargarPedidos = async (tokenAdmin) => {
         setCargando(true);
         setError('');
@@ -67,7 +79,8 @@ function Admin() {
         }
     };
 
-
+// Registrar un nuevo combo mediante una solicitud POST al backend.
+// Después de guardarlo, limpiar el formulario y actualizar la lista.
 const cargarCombos = async (tokenAdmin) => {
     setCargando(true);
     setError('');
@@ -132,6 +145,8 @@ const guardarCombo = async (event) => {
     }
 };
 
+// Modificar la información de un combo existente mediante una solicitud PATCH.
+// Al finalizar, limpiar el formulario y actualizar la lista de combos.
 const actualizarCombo = async (event) => {
     event.preventDefault();
 
@@ -186,6 +201,7 @@ const editarCombo = (combo) => {
     });
 };
 
+// Solicitar confirmación y eliminar el combo seleccionado del sistema.
 const eliminarCombo = async (id) => {
     const confirmar = window.confirm(
         '¿Estás seguro de que deseas eliminar este combo?'
@@ -220,6 +236,8 @@ const eliminarCombo = async (id) => {
     }
 };
 
+// Consultar los precios actuales de los productos desde el backend
+// y actualizar los valores mostrados en el panel.
 const cargarPrecios = async () => {
     setCargandoPrecios(true);
     setError('');
@@ -247,6 +265,8 @@ const cargarPrecios = async () => {
     }
 };
 
+// Enviar los nuevos precios al backend para actualizar los valores
+// almacenados. Se convierten a números antes de enviarlos.
 const guardarPrecios = async () => {
     setGuardandoPrecios(true);
     setError('');
@@ -285,6 +305,8 @@ const guardarPrecios = async () => {
     }
 };
 
+// Cambiar el estado de un pedido y volver a consultar la lista
+// para mostrar la información actualizada.
     const actualizarEstado = async (id, nuevoEstado) => {
     try {
         const respuesta = await fetch(
@@ -314,6 +336,8 @@ const guardarPrecios = async () => {
     }
 };
 
+// Solicitar confirmación y eliminar un pedido del sistema.
+// Después de eliminarlo, actualizar la lista de pedidos.
 const eliminarPedido = async (id) => {
     const confirmar = window.confirm(
         '¿Estás seguro de que deseas eliminar este pedido? Esta acción no se puede deshacer.'
@@ -348,6 +372,8 @@ const eliminarPedido = async (id) => {
     }
 };
 
+// Enviar las credenciales del administrador al backend para verificar su identidad.
+// Si son correctas, guardar el token de autenticación e ingresar al panel.
     const iniciarSesion = async (event) => {
         event.preventDefault();
         setError('');
@@ -381,6 +407,8 @@ const eliminarPedido = async (id) => {
         }
     };
 
+    // Cerrar la sesión administrativa, eliminar el token almacenado
+// y limpiar los datos de la interfaz.
     const cerrarSesion = () => {
         localStorage.removeItem('tokenAdmin');
         setToken(null);
@@ -390,7 +418,12 @@ const eliminarPedido = async (id) => {
         setError('');
     };
 
+    // Verificar si existe un token de autenticación para mostrar
+// el panel administrativo o, en caso contrario, el formulario de acceso.
     if (token) {
+
+        // Construir la interfaz principal del panel administrativo,
+// incluyendo la navegación entre las secciones de gestión.
         return (
             <section className="admin-panel">
 
@@ -412,6 +445,7 @@ const eliminarPedido = async (id) => {
                     <p>Aquí puedes gestionar los pedidos de tus clientes.</p>
                 </div>
 
+{/* Botones para cambiar entre la gestión de pedidos, combos y precios. */}
                 <div className="admin-navegacion">
 
     <button
@@ -669,6 +703,7 @@ const eliminarPedido = async (id) => {
                     </>
 )}
 
+{/* Mostrar el formulario para consultar y actualizar los precios de los productos. */}
 {seccionActiva === 'precios' && (
     <section className="admin-precios">
 
@@ -776,6 +811,7 @@ const eliminarPedido = async (id) => {
     </section>
 )}
 
+{/* Mostrar el formulario y el listado para crear, editar y eliminar combos. */}
 {seccionActiva === 'combos' && (
     <section className="admin-combos">
         <div className="admin-combos-titulo">

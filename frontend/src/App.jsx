@@ -1,4 +1,5 @@
-
+// Importar los estilos generales y las herramientas necesarias
+// para construir la aplicación y gestionar la navegación.
 import './App.css';
 import { useEffect } from 'react';
 import './fondos.css';
@@ -12,9 +13,11 @@ import Categoria from './paginas/Categoria';
 import Combos from './paginas/Combos';
 import Nosotros from './paginas/Nosotros';
 
-
+    // Componente principal que contiene la estructura general del sitio web.
 function App() {
 
+        // Configurar las imágenes de fondo utilizando la ruta base del proyecto.
+    // Esto permite que los recursos se carguen correctamente al publicar la página.
     useEffect(() => {
     const base = import.meta.env.BASE_URL;
 
@@ -33,10 +36,15 @@ function App() {
         `url("${base}imagenes/imagendepruebaflor.png")`
     );
 }, []);
+
+    // Definir la estructura visual y las rutas de navegación de la aplicación.
     return (
        <HashRouter>
+
+        {/* Mostrar la asesora virtual en las diferentes secciones del sitio. */}
            <AsesoraIA />
 
+{/* Encabezado con el logotipo y el menú principal de navegación. */}
            <header>
                <nav>
                   <div className="marca">
@@ -67,6 +75,8 @@ function App() {
            </header>
 
             <main>
+
+                {/* Definir las rutas que permiten navegar entre las páginas del emprendimiento. */}
                 <Routes>
                     <Route path="/" element={<Inicio />} />
                     <Route path="/productos" element={<Productos />} />
@@ -78,6 +88,7 @@ function App() {
                 </Routes>
             </main>
 
+{/* Pie de página con información del emprendimiento y enlaces de contacto. */}
             <footer className="footer">
                 <div className="footer-contenido">
 
