@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import './admin.css';
 import API_URL from '../config';
+const BASE_URL = import.meta.env.BASE_URL;
 
 function Admin() {
     const [email, setEmail] = useState('');
