@@ -98,13 +98,15 @@ const guardarCombo = async (event) => {
     event.preventDefault();
 
     try {
+
         const respuesta = await fetch(`${API_URL}/api/admin/combos`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify(nuevoCombo)
-        });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(nuevoCombo)
+});
 
         const datos = await respuesta.json();
 
