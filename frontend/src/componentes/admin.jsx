@@ -842,7 +842,7 @@ const eliminarPedido = async (id) => {
             ...nuevoCombo,
             imagen: e.target.value
         })}
-        placeholder="/imagenes/combo-dulce.jpg"
+        placeholder={`${BASE_URL}imagenes/combo-dulce.jpg`}
     />
 </div>
 

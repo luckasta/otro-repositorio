@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import API_URL from '../config';
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 function Categoria() {
     const { tipo } = useParams();
     console.log('Categoría seleccionada:', tipo);
@@ -49,43 +51,43 @@ function Categoria() {
             titulo: 'Tortas creativas y personalizadas',
             descripcion: 'Cada torta es una creación única. Elige la temática, los colores, los sabores y los detalles. ¡Nosotros hacemos realidad tu idea!',
             imagenes: [
-                '/imagenes/tortas1.jpg',
-                '/imagenes/tortas2.jpg',
-                '/imagenes/tortas3.jpg',
-                '/imagenes/tortas4.jpeg'
-            ]
+    `${BASE_URL}imagenes/tortas1.jpg`,
+    `${BASE_URL}imagenes/tortas2.jpg`,
+    `${BASE_URL}imagenes/tortas3.jpg`,
+    `${BASE_URL}imagenes/tortas4.jpeg`
+]
         },
 
          cupcakes: {
             titulo: 'Cupcakes creativos y personalizados',
             descripcion: 'Pequeñas creaciones llenas de sabor. Personaliza sus colores, sabores y decoración para cualquier ocasión.',
             imagenes: [
-                '/imagenes/cupcake1.jpg',
-                '/imagenes/cupcake2.jpg',
-                '/imagenes/cupcake33.jpg',
-                '/imagenes/cupcake4.jpg'
-            ]
+               `${BASE_URL}imagenes/cupcake1.jpg`,
+    `${BASE_URL}imagenes/cupcake2.jpg`,
+    `${BASE_URL}imagenes/cupcake33.jpg`,
+    `${BASE_URL}imagenes/cupcake4.jpg`
+]
         },
 
         postres: {
             titulo: 'Postres deliciosos y personalizados',
             descripcion: 'Descubre nuestros postres, preparados con dedicación y perfectos para compartir o disfrutar en cualquier ocasión.',
             imagenes: [
-                '/imagenes/postres1.jpg',
-                '/imagenes/postres2.jpg',
-                '/imagenes/postres3.jpg',
-                '/imagenes/postres4.jpg'
-            ]
+    `${BASE_URL}imagenes/postres1.jpg`,
+    `${BASE_URL}imagenes/postres2.jpg`,
+    `${BASE_URL}imagenes/postres3.jpg`,
+    `${BASE_URL}imagenes/postres4.jpg`
+]
         },
         galletas: {
             titulo: 'Galletas creativas y personalizadas',
             descripcion: 'Galletas deliciosas y llenas de creatividad, ideales para regalar, celebrar y compartir. Personaliza sus diseños y decoración.',
             imagenes: [
-                '/imagenes/galletas1.jpg',
-                '/imagenes/galletas2.jpg',
-                '/imagenes/galletas3.jpg',
-                '/imagenes/galletas4.jpg'
-            ]
+                `${BASE_URL}imagenes/galletas1.jpg`,
+    `${BASE_URL}imagenes/galletas2.jpg`,
+    `${BASE_URL}imagenes/galletas3.jpg`,
+    `${BASE_URL}imagenes/galletas4.jpg`
+]
         }
 
 

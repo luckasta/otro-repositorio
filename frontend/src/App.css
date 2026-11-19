@@ -1,3 +1,4 @@
+
 #inicio {
   min-height: 500px;
   padding: 100px 20px;
@@ -723,7 +724,7 @@
 }
 
 header {
-    background-image: url('/imagenes/otrapruebafondo.jpg');
+    background-image: var(--fondo-encabezado);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1159,7 +1160,7 @@ header nav ul li a:hover {
 
 .fondo-inicio {
     background-color: #F8F3EA;
-    background-image: url('/imagenes/imagendepruebapatron.png');
+    background-image: var(--fondo-patron);
     background-repeat: repeat;
     background-size: 250px;
     background-position: center;
@@ -1170,7 +1171,7 @@ header nav ul li a:hover {
 .pagina-productos,
 .admin-panel {
     background-color: #F8F3EA;
-    background-image: url('/imagenes/imagendepruebaflor.png');
+    background-image: var(--fondo-flor);
     background-repeat: repeat;
     background-size: 250px;
     background-position: center;

@@ -1,8 +1,9 @@
 
 import './App.css';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import './fondos.css';
+import { HashRouter, Routes, Route, Link } from 'react-router-dom';
 import AsesoraIA from './componentes/AsesoraIA';
-
 import Admin from './componentes/admin';
 import Inicio from './paginas/Inicio';
 import Productos from './paginas/Productos';
@@ -13,8 +14,27 @@ import Nosotros from './paginas/Nosotros';
 
 
 function App() {
+
+    useEffect(() => {
+    const base = import.meta.env.BASE_URL;
+
+    document.documentElement.style.setProperty(
+        '--fondo-encabezado',
+        `url("${base}imagenes/otrapruebafondo.jpg")`
+    );
+
+    document.documentElement.style.setProperty(
+        '--fondo-patron',
+        `url("${base}imagenes/imagendepruebapatron.png")`
+    );
+
+    document.documentElement.style.setProperty(
+        '--fondo-flor',
+        `url("${base}imagenes/imagendepruebaflor.png")`
+    );
+}, []);
     return (
-        <BrowserRouter>
+       <HashRouter>
            <AsesoraIA />
 
            <header>
@@ -23,7 +43,7 @@ function App() {
 
     <Link to="/" className="logo-marca">
         <img
-            src="/imagenes/logo-grande2.png"
+            src={`${import.meta.env.BASE_URL}imagenes/logo-grande2.png`}
             alt="Dulce Tentación - Repostería creativa"
         />
     </Link>
@@ -105,7 +125,7 @@ function App() {
                 </div>
             </footer>
 
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 

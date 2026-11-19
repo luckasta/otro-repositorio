@@ -1,5 +1,6 @@
 
 import { Link } from 'react-router-dom';
+const BASE_URL = import.meta.env.BASE_URL;
 function Productos() {
     return (
         <section id="Productos" className="pagina-productos">
@@ -15,7 +16,7 @@ function Productos() {
             <div className="catalogo-contenedor">
 
                 <article className="producto">
-                    <img className="producto-imagen" src="/imagenes/portadadetortas.jpg" alt="Tortas creativas" />
+                    <img className="producto-imagen" src={`${BASE_URL}imagenes/portadadetortas.jpg`} alt="Tortas creativas" />
                     <h3>Tortas</h3>
                     <p>
                         Tortas únicas con diseños originales para
@@ -27,7 +28,7 @@ function Productos() {
                 </article>
 
                 <article className="producto">
-                    <img className="producto-imagen" src="/imagenes/portadadecupcake.jpg" alt="Cupcakes decorados" />
+                   <img className="producto-imagen" src={`${BASE_URL}imagenes/portadadecupcake.jpg`} alt="Cupcakes decorados" />
                     <h3>Cupcakes</h3>
                     <p>
                         Pequeñas creaciones llenas de sabor,
@@ -39,7 +40,7 @@ function Productos() {
                 </article>
 
                 <article className="producto">
-                    <img className="producto-imagen" src="/imagenes/portadadepostres.png" alt="Postres personalizados" />
+                    <img className="producto-imagen" src={`${BASE_URL}imagenes/portadadepostres.png`} alt="Postres personalizados" />
                     <h3>Postres</h3>
                     <p>
                         Postres diseñados para darle un toque
@@ -51,7 +52,7 @@ function Productos() {
                 </article>
 
                 <article className="producto">
-                    <img className="producto-imagen" src="/imagenes/portadadegalletas.jpg" alt="Galletas creativas" />
+                    <img className="producto-imagen" src={`${BASE_URL}imagenes/portadadegalletas.jpg`} alt="Galletas creativas" />
                     <h3>Galletas</h3>
                     <p>
                         Galletas con formas, colores y decoraciones

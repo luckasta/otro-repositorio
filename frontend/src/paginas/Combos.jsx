@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import API_URL from '../config';
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 function Combos() {
     const [combos, setCombos] = useState([]);
 const [cargando, setCargando] = useState(true);
@@ -44,7 +46,7 @@ useEffect(() => {
             <div className="combos-grid">
 
                 <article className="combo-tarjeta">
-                    <img src="/imagenes/combo dulce.jpeg" alt="Combo Dulce" />
+                   <img src={`${BASE_URL}imagenes/combo dulce.jpeg`} alt="Combo Dulce" />
                     <h3>Combo Dulce</h3>
                     <p>Cupcakes y galletas decoradas para disfrutar de algo delicioso.</p>
                     <span>Precio: $90.000 </span>
@@ -61,7 +63,7 @@ useEffect(() => {
                 </article>
 
                 <article className="combo-tarjeta">
-                    <img src="/imagenes/combo celebracion.jpeg" alt="Combo Celebración" />
+                   <img src={`${BASE_URL}imagenes/combo celebracion.jpeg`} alt="Combo Celebración" />
                     <h3>Combo Celebración</h3>
                     <p>Una mini torta acompañada de deliciosos cupcakes.</p>
                     <span>Precio: $130.000</span>
@@ -78,7 +80,7 @@ useEffect(() => {
                 </article>
 
                 <article className="combo-tarjeta">
-                    <img src="/imagenes/combo galletas.jpeg" alt="Combo Galletitas" />
+                   <img src={`${BASE_URL}imagenes/combo galletas.jpeg`} alt="Combo Galletitas" />
                     <h3>Combo Galletitas</h3>
                     <p>Una selección de galletas decoradas con diseños especiales.</p>
                     <span>Precio: $50.000</span>
@@ -95,7 +97,7 @@ useEffect(() => {
                 </article>
 
                 <article className="combo-tarjeta">
-                    <img src="/imagenes/combo especial.jpeg" alt="Combo Especial" />
+                    <img src={`${BASE_URL}imagenes/combo especial.jpeg`} alt="Combo Especial" />
                     <h3>Combo Especial</h3>
                     <p>Una variedad de pequeños postres para compartir.</p>
                     <span>Precio: $75.000</span>
@@ -121,8 +123,15 @@ useEffect(() => {
     <article className="combo-tarjeta" key={combo._id}>
 
         {combo.imagen && (
-            <img src={combo.imagen} alt={combo.nombre} />
-        )}
+    <img
+        src={
+            combo.imagen.startsWith('/imagenes/')
+                ? `${BASE_URL}${combo.imagen.substring(1)}`
+                : combo.imagen
+        }
+        alt={combo.nombre}
+    />
+)}
 
         <h3>{combo.nombre}</h3>
 

@@ -3,11 +3,13 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 function Inicio() {
-    const imagenes = [
-    '/imagenes/imagen%20principal.png',
-    '/imagenes/imagenportada2.jpeg',
-    '/imagenes/imagenportada3.jpeg'
+   const imagenes = [
+    `${BASE_URL}imagenes/imagen%20principal.png`,
+    `${BASE_URL}imagenes/imagenportada2.jpeg`,
+    `${BASE_URL}imagenes/imagenportada3.jpeg`
 ];
     const [imagenActual, setImagenActual] = useState(0);
 
@@ -65,7 +67,7 @@ function Inicio() {
 
     <Link to="/combos" className="creacion-card">
         <img
-            src="/imagenes/combos.png"
+            src={`${BASE_URL}imagenes/combos.png`}
             alt="Combos de Dulce Tentación"
         />
         <h3>Nuestros combos</h3>
@@ -74,7 +76,7 @@ function Inicio() {
 
     <Link to="/nosotros" className="creacion-card">
         <img
-            src="/imagenes/nosotros.png"
+           src={`${BASE_URL}imagenes/nosotros.png`}
             alt="Nuestra historia"
         />
         <h3>Conoce nuestra historia</h3>
